@@ -4,17 +4,22 @@ using UnityEngine;
 
 public class Jump : MonoBehaviour
 {
+    [Header("Jump parameters")]
     [SerializeField] private int maxJumps = 2;
     [SerializeField] private float minJumpHeight = 2.5f;
+    [Tooltip("Max time jump button")]
     [SerializeField] private float maxJumpTime = 0.5f;
-    [SerializeField] private float gravity = 9f;
+
+    [Header("Falling")]
+    [SerializeField] private float gravity = 10f;
 
     private float speed = 0;
 
     private int jumpsLeft;
     private bool isJumping = false;
 
-    public bool OnGround { get; private set; } = false;
+    public bool OnGround { get; set; } = false;
+    public float VerticalSpeed { get; } = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -23,8 +28,16 @@ public class Jump : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        transform.position += Vector3.zero;
+        if (!OnGround) speed -= gravity * Time.deltaTime;
+        else speed = 0;
+
+        transform.position += speed * Time.deltaTime * Vector3.up;
+    }
+
+    public void StopSpeed()
+    {
+        speed = 0;
     }
 }
