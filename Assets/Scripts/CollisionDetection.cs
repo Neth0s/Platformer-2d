@@ -77,6 +77,7 @@ public class CollisionDetection : MonoBehaviour
             {
                 transform.position = new Vector3(transform.position.x, goodCollisions[0].bounds.max.y + coll.size.y * transform.localScale.y / 2 + epsilon, transform.position.z);
                 jump.StopSpeed();
+                jump.OnGround = true;
             }
         }
     }
