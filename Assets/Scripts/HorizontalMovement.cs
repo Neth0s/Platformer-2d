@@ -26,6 +26,7 @@ public class HorizontalMovement : MonoBehaviour
     {
         speed = Mathf.Lerp(speed, GetInput() * maxSpeed, Time.deltaTime / timeToMax);
         transform.position += speed * Time.deltaTime * Vector3.right;
+        Debug.Log("In Horizontal Movement: " + transform.position);
     }
 
 

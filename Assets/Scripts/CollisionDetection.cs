@@ -7,6 +7,8 @@ public class CollisionDetection : MonoBehaviour
     BoxCollider2D coll;
     HorizontalMovement horizontalMovement;
 
+    float epsilon = 0.01f;
+
     private void Awake()
     {
         coll = GetComponent<BoxCollider2D>();
@@ -18,34 +20,40 @@ public class CollisionDetection : MonoBehaviour
         var contactFilter = new ContactFilter2D().NoFilter();
         var results = new List<Collider2D>();
 
-<<<<<<< HEAD
         var horizontalSpeed = horizontalMovement.HorizontalSpeed;
-        var initialPosition = transform.position;
+        var verticalSpeed = 0f;
 
-        if(horizontalSpeed > 0)
+        if (horizontalSpeed > 0)
         {
-            transform.position += (Vector3)(Vector2.right * horizontalSpeed * Time.deltaTime);
-
             if (coll.OverlapCollider(contactFilter, results) > 0)
             {
-                transform.position = new Vector3(results[0].bounds.min.x - coll.size.x, transform.position.y, transform.position.z);
-            }
-            else
-            {
-                transform.position = initialPosition;
+                transform.position = new Vector3(results[0].bounds.min.x - coll.size.x * transform.localScale.x / 2 - epsilon, transform.position.y, transform.position.z);
+                horizontalMovement.StopSpeed();
             }
         }
         else if(horizontalSpeed < 0)
         {
-            transform.position += (Vector3)(Vector2.right * horizontalSpeed * Time.deltaTime);
-
             if (coll.OverlapCollider(contactFilter, results) > 0)
             {
-                transform.position = new Vector3(results[0].bounds.max.x + coll.size.x, transform.position.y, transform.position.z);
+                transform.position = new Vector3(results[0].bounds.max.x + coll.size.x * transform.localScale.x / 2 + epsilon, transform.position.y, transform.position.z);
+                horizontalMovement.StopSpeed();
             }
-            else
+        }
+
+        if (verticalSpeed > 0)
+        {
+            if (coll.OverlapCollider(contactFilter, results) > 0)
             {
-                transform.position = initialPosition;
+                transform.position = new Vector3(results[0].bounds.min.y - coll.size.y * transform.localScale.y / 2 - epsilon, transform.position.y, transform.position.z);
+                horizontalMovement.StopSpeed();
+            }
+        }
+        else if(verticalSpeed < 0)
+        {
+            if (coll.OverlapCollider(contactFilter, results) > 0)
+            {
+                transform.position = new Vector3(results[0].bounds.max.y + coll.size.y * transform.localScale.y / 2 + epsilon, transform.position.y, transform.position.z);
+                horizontalMovement.StopSpeed();
             }
         }
     }
