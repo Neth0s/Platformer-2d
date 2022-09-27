@@ -8,7 +8,7 @@ public class CollisionDetection : MonoBehaviour
     HorizontalMovement horizontalMovement;
     Jump jump;
 
-    float epsilon = 0.01f;
+    const float epsilon = 0.001f;
 
     private void Awake()
     {
@@ -19,66 +19,47 @@ public class CollisionDetection : MonoBehaviour
 
     private void FixedUpdate()
     {
-        var horizontalSpeed = horizontalMovement.HorizontalSpeed;
-        var verticalSpeed = jump.VerticalSpeed;
+        // Detect collisions a frame ahead.
+        var collisions = Physics2D.OverlapBoxAll(transform.position + (Vector3)(Vector2.right * horizontalMovement.HorizontalSpeed * Time.fixedDeltaTime) + (Vector3)(Vector2.up * jump.VerticalSpeed * Time.fixedDeltaTime), coll.size, 0);
 
-        if (horizontalSpeed > 0)
+        // Evaluate the direction of each collision.
+        var leftToRightCollisions = new List<Collider2D>();
+        var rightToLeftCollisions = new List<Collider2D>();
+        var bottomToUpCollisions = new List<Collider2D>();
+        var upToBottomCollisions = new List<Collider2D>();
+        foreach (var collision in collisions)
         {
-            var collisions = Physics2D.OverlapBoxAll(transform.position + (Vector3)(Vector2.right * horizontalSpeed * Time.fixedDeltaTime), coll.size, 0);
-            var goodCollisions = new List<Collider2D>();
-            foreach (var collision in collisions)
-                if (collision.gameObject != gameObject && coll.bounds.max.x < collision.bounds.min.x)
-                    goodCollisions.Add(collision);
-
-            if (goodCollisions.Count > 0)
-            {
-                transform.position = new Vector3(goodCollisions[0].bounds.min.x - coll.size.x * transform.localScale.x / 2 - epsilon, transform.position.y, transform.position.z);
-                horizontalMovement.StopSpeed();
-            }
-        }
-        else if(horizontalSpeed < 0)
-        {
-            var collisions = Physics2D.OverlapBoxAll(transform.position + (Vector3)(Vector2.right * horizontalSpeed * Time.fixedDeltaTime), coll.size, 0);
-            var goodCollisions = new List<Collider2D>();
-            foreach (var collision in collisions)
-                if (collision.gameObject != gameObject && coll.bounds.min.x > collision.bounds.max.x)
-                    goodCollisions.Add(collision);
-
-            if (goodCollisions.Count > 0)
-            {
-                transform.position = new Vector3(goodCollisions[0].bounds.max.x + coll.size.x * transform.localScale.x / 2 + epsilon, transform.position.y, transform.position.z);
-                horizontalMovement.StopSpeed();
-            }
+            if (collision.gameObject != gameObject && coll.bounds.max.x < collision.bounds.min.x)
+                leftToRightCollisions.Add(collision);
+            else if (collision.gameObject != gameObject && coll.bounds.min.x > collision.bounds.max.x)
+                rightToLeftCollisions.Add(collision);
+            else if (collision.gameObject != gameObject && coll.bounds.max.y < collision.bounds.min.y)
+                bottomToUpCollisions.Add(collision);
+            else if (collision.gameObject != gameObject && coll.bounds.min.y > collision.bounds.max.y)
+                upToBottomCollisions.Add(collision);
         }
 
-        if (verticalSpeed > 0)
+        // Resolve collisions based on their direction.
+        if (leftToRightCollisions.Count > 0)
         {
-            var collisions = Physics2D.OverlapBoxAll(transform.position + (Vector3)(Vector2.up * verticalSpeed * Time.fixedDeltaTime), coll.size, 0);
-            var goodCollisions = new List<Collider2D>();
-            foreach (var collision in collisions)
-                if(collision.gameObject != gameObject && coll.bounds.max.y < collision.bounds.min.y)
-                    goodCollisions.Add(collision);
-
-            if (goodCollisions.Count > 0)
-            {
-                transform.position = new Vector3(transform.position.x, goodCollisions[0].bounds.min.y - coll.size.y * transform.localScale.y / 2 - epsilon, transform.position.z);
-                jump.StopSpeed();
-            }
+            transform.position = new Vector3(leftToRightCollisions[0].bounds.min.x - coll.size.x * transform.localScale.x / 2 - epsilon, transform.position.y, transform.position.z);
+            horizontalMovement.StopSpeed();
         }
-        else if(verticalSpeed < 0)
+        if (rightToLeftCollisions.Count > 0)
         {
-            var collisions = Physics2D.OverlapBoxAll(transform.position + (Vector3)(Vector2.up * verticalSpeed * Time.fixedDeltaTime), coll.size, 0);
-            var goodCollisions = new List<Collider2D>();
-            foreach (var collision in collisions)
-                if (collision.gameObject != gameObject && coll.bounds.min.y > collision.bounds.max.y)
-                    goodCollisions.Add(collision);
-
-            if (goodCollisions.Count > 0)
-            {
-                transform.position = new Vector3(transform.position.x, goodCollisions[0].bounds.max.y + coll.size.y * transform.localScale.y / 2 + epsilon, transform.position.z);
-                jump.StopSpeed();
-                jump.OnGround = true;
-            }
+            transform.position = new Vector3(rightToLeftCollisions[0].bounds.max.x + coll.size.x * transform.localScale.x / 2 + epsilon, transform.position.y, transform.position.z);
+            horizontalMovement.StopSpeed();
+        }
+        if (bottomToUpCollisions.Count > 0)
+        {
+            transform.position = new Vector3(transform.position.x, bottomToUpCollisions[0].bounds.min.y - coll.size.y * transform.localScale.y / 2 - epsilon, transform.position.z);
+            jump.StopSpeed();
+        }
+        if (upToBottomCollisions.Count > 0)
+        {
+            transform.position = new Vector3(transform.position.x, upToBottomCollisions[0].bounds.max.y + coll.size.y * transform.localScale.y / 2 + epsilon, transform.position.z);
+            jump.StopSpeed();
+            jump.OnGround = true;
         }
     }
 }
