@@ -19,7 +19,7 @@ public class Jump : MonoBehaviour
     private bool isJumping = false;
 
     public bool OnGround { get; set; } = false;
-    public float VerticalSpeed { get; } = 0;
+    public float VerticalSpeed { get { return speed; } }
 
     // Start is called before the first frame update
     void Start()

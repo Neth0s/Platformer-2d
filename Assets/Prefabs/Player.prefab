@@ -165,7 +165,7 @@ MonoBehaviour:
   maxJumps: 2
   minJumpHeight: 2.5
   maxJumpTime: 0.5
-  gravity: 10
+  gravity: 30
 --- !u!114 &5470684457791042511
 MonoBehaviour:
   m_ObjectHideFlags: 0
