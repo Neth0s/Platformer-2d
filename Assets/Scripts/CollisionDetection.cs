@@ -19,27 +19,20 @@ public class CollisionDetection : MonoBehaviour
 
     private void FixedUpdate()
     {
-        var contactFilter = new ContactFilter2D().NoFilter();
-        var results = new List<Collider2D>();
-
         var horizontalSpeed = horizontalMovement.HorizontalSpeed;
         var verticalSpeed = jump.VerticalSpeed;
-
-        var initialPosition = transform.position;
-
-        coll.OverlapCollider(contactFilter, results);
 
         if (horizontalSpeed > 0)
         {
             var collisions = Physics2D.OverlapBoxAll(transform.position + (Vector3)(Vector2.right * horizontalSpeed * Time.fixedDeltaTime), coll.size, 0);
             var goodCollisions = new List<Collider2D>();
             foreach (var collision in collisions)
-                if (collision.gameObject != gameObject)
+                if (collision.gameObject != gameObject && coll.bounds.max.x < collision.bounds.min.x)
                     goodCollisions.Add(collision);
 
-            if (coll.OverlapCollider(contactFilter, results) > 0)
+            if (goodCollisions.Count > 0)
             {
-                transform.position = new Vector3(collisions[0].bounds.min.x - coll.size.x * transform.localScale.x / 2 - epsilon, transform.position.y, transform.position.z);
+                transform.position = new Vector3(goodCollisions[0].bounds.min.x - coll.size.x * transform.localScale.x / 2 - epsilon, transform.position.y, transform.position.z);
                 horizontalMovement.StopSpeed();
             }
         }
@@ -48,12 +41,12 @@ public class CollisionDetection : MonoBehaviour
             var collisions = Physics2D.OverlapBoxAll(transform.position + (Vector3)(Vector2.right * horizontalSpeed * Time.fixedDeltaTime), coll.size, 0);
             var goodCollisions = new List<Collider2D>();
             foreach (var collision in collisions)
-                if (collision.gameObject != gameObject)
+                if (collision.gameObject != gameObject && coll.bounds.min.x > collision.bounds.max.x)
                     goodCollisions.Add(collision);
 
-            if (coll.OverlapCollider(contactFilter, results) > 0)
+            if (goodCollisions.Count > 0)
             {
-                transform.position = new Vector3(collisions[0].bounds.max.x + coll.size.x * transform.localScale.x / 2 + epsilon, transform.position.y, transform.position.z);
+                transform.position = new Vector3(goodCollisions[0].bounds.max.x + coll.size.x * transform.localScale.x / 2 + epsilon, transform.position.y, transform.position.z);
                 horizontalMovement.StopSpeed();
             }
         }
@@ -63,7 +56,7 @@ public class CollisionDetection : MonoBehaviour
             var collisions = Physics2D.OverlapBoxAll(transform.position + (Vector3)(Vector2.up * verticalSpeed * Time.fixedDeltaTime), coll.size, 0);
             var goodCollisions = new List<Collider2D>();
             foreach (var collision in collisions)
-                if(collision.gameObject != gameObject)
+                if(collision.gameObject != gameObject && coll.bounds.max.y < collision.bounds.min.y)
                     goodCollisions.Add(collision);
 
             if (goodCollisions.Count > 0)
@@ -77,7 +70,7 @@ public class CollisionDetection : MonoBehaviour
             var collisions = Physics2D.OverlapBoxAll(transform.position + (Vector3)(Vector2.up * verticalSpeed * Time.fixedDeltaTime), coll.size, 0);
             var goodCollisions = new List<Collider2D>();
             foreach (var collision in collisions)
-                if (collision.gameObject != gameObject)
+                if (collision.gameObject != gameObject && coll.bounds.min.y > collision.bounds.max.y)
                     goodCollisions.Add(collision);
 
             if (goodCollisions.Count > 0)
