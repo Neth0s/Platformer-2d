@@ -18,6 +18,7 @@ public class CollisionDetection : MonoBehaviour
         var contactFilter = new ContactFilter2D().NoFilter();
         var results = new List<Collider2D>();
 
+<<<<<<< HEAD
         var horizontalSpeed = horizontalMovement.HorizontalSpeed;
         var initialPosition = transform.position;
 

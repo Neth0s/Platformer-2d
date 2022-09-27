@@ -24,9 +24,13 @@ public class HorizontalMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        speed = Mathf.Lerp(speed, maxSpeed, Time.deltaTime / timeToMax);
+        speed = Mathf.Lerp(speed, GetInput() * maxSpeed, Time.deltaTime / timeToMax);
+        transform.position += speed * Time.deltaTime * Vector3.right;
+    }
 
-        float movement = speed * Time.deltaTime * inputActions.Player.Move.ReadValue<float>();
-        transform.position += Vector3.right * movement;
+    private float GetInput()
+    {
+        float input = inputActions.Player.Move.ReadValue<float>();
+        return input == 0 ? 0 : Mathf.Sign(input);
     }
 }
