@@ -28,9 +28,15 @@ public class HorizontalMovement : MonoBehaviour
         transform.position += speed * Time.deltaTime * Vector3.right;
     }
 
+
     private float GetInput()
     {
         float input = inputActions.Player.Move.ReadValue<float>();
         return input == 0 ? 0 : Mathf.Sign(input);
+    }
+
+    public void StopSpeed()
+    {
+        speed = 0;
     }
 }
