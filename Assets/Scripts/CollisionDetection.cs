@@ -17,6 +17,6 @@ public class CollisionDetection : MonoBehaviour
         var results = new List<Collider2D>();
         coll.OverlapCollider(contactFilter, results);
 
-        Debug.Log(results.Count);
+        //Debug.Log(results.Count);
     }
 }
