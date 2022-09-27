@@ -30,10 +30,13 @@ public class Jump : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!OnGround) speed -= gravity * Time.deltaTime;
-        else speed = 0;
-
+        speed -= gravity * Time.deltaTime;
         transform.position += speed * Time.deltaTime * Vector3.up;
+    }
+
+    private float GetInput()
+    {
+        return 0;
     }
 
     public void StopSpeed()
