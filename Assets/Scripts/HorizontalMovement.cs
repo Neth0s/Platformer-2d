@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class HorizontalMovement : MonoBehaviour
 {
+    [Header("Speed and acceleration")]
     [SerializeField] private float maxSpeed = 10f;
+    [Tooltip("Time necessary to get from 0 to max speed.")]
+    [SerializeField] private float timeToMax = 0.5f;
 
     private Manette inputActions;
-    private Vector2 movement = Vector2.zero;
+    private float speed = 0;
+
+    public float HorizontalSpeed { get { return speed; } }
 
     // Start is called before the first frame update
     void Start()
@@ -19,7 +24,9 @@ public class HorizontalMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        movement = inputActions.Player.Move.ReadValue<Vector2>();
-        transform.position += (Vector3) movement.normalized * maxSpeed * Time.deltaTime;
+        speed = Mathf.Lerp(speed, maxSpeed, Time.deltaTime / timeToMax);
+
+        float movement = speed * Time.deltaTime * inputActions.Player.Move.ReadValue<float>();
+        transform.position += Vector3.right * movement;
     }
 }
