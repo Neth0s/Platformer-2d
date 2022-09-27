@@ -22,7 +22,7 @@ public class HorizontalMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         speed = Mathf.Lerp(speed, GetInput() * maxSpeed, Time.deltaTime / timeToMax);
         transform.position += speed * Time.deltaTime * Vector3.right;
