@@ -37,36 +37,9 @@ public partial class @Manette : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Button up"",
+                    ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""ae6b2b56-d6cd-4db9-b574-5c60091e5fb3"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Button down"",
-                    ""type"": ""Button"",
-                    ""id"": ""fe06265c-5582-4612-a541-467dc1be063e"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Button left"",
-                    ""type"": ""Button"",
-                    ""id"": ""91142c63-9e7e-4ffc-aa57-8258277eb2f1"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Button right"",
-                    ""type"": ""Button"",
-                    ""id"": ""8d58e220-71d6-43eb-8221-44d1dd7090c8"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -108,46 +81,134 @@ public partial class @Manette : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""3c0d6b61-8cc3-408f-8c24-d1e31d3fb9ec"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""name"": ""2D Vector"",
+                    ""id"": ""1eb776c6-f6ed-4217-9190-d5d977ff19bb"",
+                    ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad;XR"",
-                    ""action"": ""Button up"",
-                    ""isComposite"": false,
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": ""up"",
+                    ""id"": ""24b27261-ecb9-4e4b-a0ca-e37d7751e031"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""ad4d0496-e87c-49d0-bb8e-a7bac006cf0f"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""1abfd4e7-1b22-4bbf-b559-3d039f9e2caa"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""81796f34-089f-4431-99ac-d94acf22d384"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""1d195bf9-48c6-4740-99c6-d7d1e80160ff"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""653e9162-9207-4ec6-8a66-bfef13e028c4"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""dc90b9b6-ea7a-4214-8148-6233bb165ab5"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""b0c50fee-38a1-473f-950e-c010d933b4df"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""b65cd7ef-85ed-43b8-a6e9-0f31b65595d0"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
-                    ""id"": ""6071ff39-026a-4e2e-b167-762c8639c0fd"",
+                    ""id"": ""3c0d6b61-8cc3-408f-8c24-d1e31d3fb9ec"",
                     ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad;XR"",
-                    ""action"": ""Button down"",
+                    ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""cde38f29-1bfa-4541-bb5d-8a9b1ace5c57"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""id"": ""0cb3c778-a208-4b81-a94e-b2e0367dad93"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad;XR"",
-                    ""action"": ""Button left"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f6cbabfd-7fc7-4641-a187-fcc007729ee8"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad;XR"",
-                    ""action"": ""Button right"",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -220,10 +281,7 @@ public partial class @Manette : IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-        m_Player_Buttonup = m_Player.FindAction("Button up", throwIfNotFound: true);
-        m_Player_Buttondown = m_Player.FindAction("Button down", throwIfNotFound: true);
-        m_Player_Buttonleft = m_Player.FindAction("Button left", throwIfNotFound: true);
-        m_Player_Buttonright = m_Player.FindAction("Button right", throwIfNotFound: true);
+        m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -284,19 +342,13 @@ public partial class @Manette : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Move;
-    private readonly InputAction m_Player_Buttonup;
-    private readonly InputAction m_Player_Buttondown;
-    private readonly InputAction m_Player_Buttonleft;
-    private readonly InputAction m_Player_Buttonright;
+    private readonly InputAction m_Player_Jump;
     public struct PlayerActions
     {
         private @Manette m_Wrapper;
         public PlayerActions(@Manette wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
-        public InputAction @Buttonup => m_Wrapper.m_Player_Buttonup;
-        public InputAction @Buttondown => m_Wrapper.m_Player_Buttondown;
-        public InputAction @Buttonleft => m_Wrapper.m_Player_Buttonleft;
-        public InputAction @Buttonright => m_Wrapper.m_Player_Buttonright;
+        public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -309,18 +361,9 @@ public partial class @Manette : IInputActionCollection2, IDisposable
                 @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Buttonup.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonup;
-                @Buttonup.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonup;
-                @Buttonup.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonup;
-                @Buttondown.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtondown;
-                @Buttondown.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtondown;
-                @Buttondown.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtondown;
-                @Buttonleft.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonleft;
-                @Buttonleft.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonleft;
-                @Buttonleft.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonleft;
-                @Buttonright.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonright;
-                @Buttonright.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonright;
-                @Buttonright.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonright;
+                @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -328,18 +371,9 @@ public partial class @Manette : IInputActionCollection2, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
-                @Buttonup.started += instance.OnButtonup;
-                @Buttonup.performed += instance.OnButtonup;
-                @Buttonup.canceled += instance.OnButtonup;
-                @Buttondown.started += instance.OnButtondown;
-                @Buttondown.performed += instance.OnButtondown;
-                @Buttondown.canceled += instance.OnButtondown;
-                @Buttonleft.started += instance.OnButtonleft;
-                @Buttonleft.performed += instance.OnButtonleft;
-                @Buttonleft.canceled += instance.OnButtonleft;
-                @Buttonright.started += instance.OnButtonright;
-                @Buttonright.performed += instance.OnButtonright;
-                @Buttonright.canceled += instance.OnButtonright;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
             }
         }
     }
@@ -392,9 +426,6 @@ public partial class @Manette : IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
-        void OnButtonup(InputAction.CallbackContext context);
-        void OnButtondown(InputAction.CallbackContext context);
-        void OnButtonleft(InputAction.CallbackContext context);
-        void OnButtonright(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
 }

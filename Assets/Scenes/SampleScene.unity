@@ -338,10 +338,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   circle: {fileID: 1039536107}
   amplitude: 2
-  up: {r: 1, g: 1, b: 0, a: 1}
-  down: {r: 0, g: 1, b: 0, a: 1}
-  left: {r: 0, g: 0, b: 1, a: 1}
-  right: {r: 1, g: 0, b: 0, a: 1}
+  jumpColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1580184067
 MonoBehaviour:
   m_ObjectHideFlags: 0
