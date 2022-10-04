@@ -1010,6 +1010,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1087450578}
     - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
+      propertyPath: airBrake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
       propertyPath: dashTime
       value: 0.15
       objectReference: {fileID: 0}
@@ -1022,8 +1026,36 @@ PrefabInstance:
       value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
+      propertyPath: airControl
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
       propertyPath: dashReloadTime
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
+      propertyPath: dashingColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
+      propertyPath: dashingColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
+      propertyPath: dashingColor.r
+      value: 0.9951428
+      objectReference: {fileID: 0}
+    - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
+      propertyPath: dashEmptyColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
+      propertyPath: dashEmptyColor.g
+      value: 0.6132076
+      objectReference: {fileID: 0}
+    - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
+      propertyPath: dashEmptyColor.r
+      value: 0.6132076
       objectReference: {fileID: 0}
     - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
       propertyPath: timeToReachMaxSpeed
