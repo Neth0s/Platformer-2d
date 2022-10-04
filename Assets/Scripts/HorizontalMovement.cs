@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class HorizontalMovement : MonoBehaviour
 {
@@ -48,13 +50,22 @@ public class HorizontalMovement : MonoBehaviour
         jumpController = GetComponent<Jump>();
     }
 
+    private void OnEnable()
+    {
+        inputActions.Player.Dash.performed += OnDash;
+    }
+
+    private void OnDisable()
+    {
+        inputActions.Player.Dash.performed -= OnDash;
+    }
+
     void FixedUpdate()
     {
         input = inputActions.Player.Move.ReadValue<float>();
 
         Movement();
 
-        CheckForDashStart();
         CheckForDashEnd();
     }
 
@@ -84,7 +95,7 @@ public class HorizontalMovement : MonoBehaviour
         transform.position += speed * Time.deltaTime * Vector3.right;
     }
 
-    private void CheckForDashStart()
+    private void OnDash(InputAction.CallbackContext obj)
     {
         if (inputActions.Player.Dash.ReadValue<float>() != 0 && Time.time >= lastDashDate + dashReloadTime)
         {
