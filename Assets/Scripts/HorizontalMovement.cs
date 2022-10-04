@@ -5,33 +5,39 @@ using UnityEngine;
 public class HorizontalMovement : MonoBehaviour
 {
     [Header("Speed and acceleration")]
-    [SerializeField] float maxSpeed = 10f;
+    [SerializeField] private float maxSpeed = 10f;
     [Tooltip("Time necessary to get from 0 to max speed.")]
-    [SerializeField] float timeToReachMaxSpeed = 0.5f;
+    [SerializeField] private float timeToReachMaxSpeed = 0.5f;
+
+    [Header("Aerial control")]
+    [SerializeField, Range(0, 100)] private float airControl = 50f;
+    [SerializeField, Range(0, 100)] private float airBrake = 50f;
+    [SerializeField, Range(0, 100)] private float airAcceleration = 50f;
+
+    [Header("Dash")]
+    [SerializeField] private float dashSpeed = 20f;
+    [SerializeField] private float dashTime = 0.1f;
+    [SerializeField] private float dashReloadTime = 1f;
+
+    [SerializeField] private Color dashingColor;
+    [SerializeField] private Color dashEmptyColor;
+
 
     private float speed = 0;
     public float Speed { get { return speed; } }
 
-    private Manette inputActions;
-
-    [Header("Dash")]
-    [SerializeField] float dashSpeed = 20f;
-    [SerializeField] float dashTime = .3f;
-    [SerializeField] float dashReloadTime = 1f;
-    float lastDashDate = -Mathf.Infinity;
-    bool isDashing = false;
-
     enum Direction { Left, Right };
-    Direction currentDirection = Direction.Right;
-    Direction lastDashDirection = Direction.Right;
+    Direction dashDirection = Direction.Right;
 
-    // TODO: Do the other way around and check in Jump if player isDashing rather than stop jumping here.
-    Jump jump;
+    float lastDashDate = -Mathf.Infinity;
+
+    public enum DashState { Idle, Dashing, Cooldown }
+    public DashState IsDashing { get; private set; } = DashState.Idle;
+
+    private Manette inputActions;
 
     void Awake()
     {
-        jump = GetComponent<Jump>();
-
         inputActions = new Manette();
         inputActions.Player.Move.Enable();
         inputActions.Player.Dash.Enable();
@@ -39,54 +45,45 @@ public class HorizontalMovement : MonoBehaviour
 
     private void Update()
     {
-        SetCurrentDirection();
-
         CheckForDashStart();
         CheckForDashEnd();
     }
 
     void FixedUpdate()
     {
-        if(!isDashing)
+        if(IsDashing != DashState.Dashing)
         {
             speed = Mathf.Lerp(speed, GetInput() * maxSpeed, Time.deltaTime / timeToReachMaxSpeed);
         }
-        else
-        {
-            jump.StopSpeed();
-            speed = dashSpeed * (lastDashDirection == Direction.Left ? -1 : 1);
-        }
+        else speed = dashSpeed * (dashDirection == Direction.Right ? 1 : -1);
 
         transform.position += speed * Time.deltaTime * Vector3.right;
-    }
-
-    private void CheckForDashEnd()
-    {
-        if (isDashing && Time.time >= lastDashDate + dashTime)
-        {
-            isDashing = false;
-        }
     }
 
     private void CheckForDashStart()
     {
         if (inputActions.Player.Dash.ReadValue<float>() != 0 && Time.time >= lastDashDate + dashReloadTime)
         {
-            isDashing = true;
-            lastDashDirection = currentDirection;
+            IsDashing = DashState.Dashing;
             lastDashDate = Time.time;
+            dashDirection = GetInput() >= 0 ? Direction.Right : Direction.Left;
+
+            GetComponent<SpriteRenderer>().color = dashingColor;
         }
     }
 
-    private void SetCurrentDirection()
+    private void CheckForDashEnd()
     {
-        if (GetInput() > 0)
+        if (IsDashing == DashState.Dashing && Time.time >= lastDashDate + dashTime)
         {
-            currentDirection = Direction.Right;
+            IsDashing = DashState.Cooldown;
+            GetComponent<SpriteRenderer>().color = dashEmptyColor;
         }
-        else if (GetInput() < 0)
+
+        if (IsDashing == DashState.Cooldown && Time.time >= lastDashDate + dashReloadTime)
         {
-            currentDirection = Direction.Left;
+            IsDashing = DashState.Idle;
+            GetComponent<SpriteRenderer>().color = Color.white;
         }
     }
 

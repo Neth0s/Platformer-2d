@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 6937248890623432490}
   - component: {fileID: 4055713115326489985}
   - component: {fileID: 8647398222796501217}
+  - component: {fileID: 5470684457791042511}
   - component: {fileID: 4140118803112367270}
   - component: {fileID: 6224878515104927682}
-  - component: {fileID: 5470684457791042511}
   - component: {fileID: 1697647013}
   m_Layer: 0
   m_Name: Player
@@ -137,6 +137,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &5470684457791042511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6937248890623432493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6599105a8385324f8eb10b7cc7b5764, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4140118803112367270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,9 +163,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 13
   timeToReachMaxSpeed: 0.1
-  dashSpeed: 20
-  dashTime: 0.3
+  airControl: 50
+  airBrake: 50
+  airAcceleration: 50
+  dashSpeed: 30
+  dashTime: 0.1
   dashReloadTime: 1
+  dashingColor: {r: 0, g: 0, b: 1, a: 1}
+  dashEmptyColor: {r: 1, g: 1, b: 0, a: 1}
 --- !u!114 &6224878515104927682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,18 +188,6 @@ MonoBehaviour:
   gravity: 20
   fallMultiplier: 1.5
   jumpCutoff: 50
---- !u!114 &5470684457791042511
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6937248890623432493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6599105a8385324f8eb10b7cc7b5764, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1697647013
 MonoBehaviour:
   m_ObjectHideFlags: 0
