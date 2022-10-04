@@ -29,7 +29,7 @@ public class Jump : MonoBehaviour
     private bool isJumping = false;
     private bool cutoffApplied = false;
 
-    [SerializeField] float maxVerticalUpSpeed = 50f;
+    [SerializeField] float maxVerticalUpSpeed = 30f;
     [SerializeField] float maxVerticalDownSpeed = 50f;
 
     public float VerticalSpeed { get { return speed; } }
