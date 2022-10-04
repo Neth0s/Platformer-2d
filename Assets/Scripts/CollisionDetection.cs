@@ -41,6 +41,8 @@ public class CollisionDetection : MonoBehaviour
         }
 
         // Resolve collisions based on their direction.
+        // This could be improved by choosing the best collision candidate within each collision list.
+        // However, we decided to prioritize other features as it worked already good enough for this project.
         if (leftToRightCollisions.Count > 0)
         {
             transform.position = new Vector3(leftToRightCollisions[0].bounds.min.x - coll.size.x * transform.localScale.x / 2 - epsilon, transform.position.y, transform.position.z);
