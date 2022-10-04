@@ -163,8 +163,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxJumps: 2
-  jumpImpulse: 15
-  gravity: 30
+  jumpImpulse: 10
+  gravity: 20
+  fallMultiplier: 1.5
+  jumpCutoff: 50
 --- !u!114 &5470684457791042511
 MonoBehaviour:
   m_ObjectHideFlags: 0
