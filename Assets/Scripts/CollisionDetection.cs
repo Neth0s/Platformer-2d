@@ -61,7 +61,7 @@ public class CollisionDetection : MonoBehaviour
         if (upToBottomCollisions.Count > 0)
         {
             transform.position = new Vector3(transform.position.x, upToBottomCollisions[0].bounds.max.y + coll.size.y * transform.localScale.y / 2 + epsilon, transform.position.z);
-            jump.TouchGround();
+            jump.TouchGround(upToBottomCollisions[0].bounciness);
         }
     }
 }

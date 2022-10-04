@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,7 @@ public class Jump : MonoBehaviour
 
     [SerializeField] float coyoteTime = 0.1f;
     float lastOnGroundDate = -Mathf.Infinity;
+    public bool OnGround => Time.time <= lastOnGroundDate + coyoteTime;
 
     private Manette inputActions;
     private float speed = 0;
@@ -26,6 +28,9 @@ public class Jump : MonoBehaviour
     private int jumpsLeft;
     private bool isJumping = false;
     private bool cutoffApplied = false;
+
+    [SerializeField] float maxVerticalUpSpeed = 50f;
+    [SerializeField] float maxVerticalDownSpeed = 50f;
 
     public float VerticalSpeed { get { return speed; } }
 
@@ -42,18 +47,30 @@ public class Jump : MonoBehaviour
     void FixedUpdate()
     {
         GetInput();
+
+        if(speed > maxVerticalUpSpeed)
+        {
+            speed = maxVerticalUpSpeed;
+        }
+        else if (speed < -maxVerticalDownSpeed)
+        {
+            speed = -maxVerticalDownSpeed;
+        }
+
         speed -= (speed < 0 ? fallMultiplier : 1) * gravity * Time.deltaTime;
         transform.position += speed * Time.deltaTime * Vector3.up;
+
+        Debug.Log(speed);
     }
 
     private void GetInput()
     {
         float input = inputActions.Player.Jump.ReadValue<float>();
-        if (input != 0 && jumpsLeft > 0 && Time.time <= lastOnGroundDate + coyoteTime)
+        if (input != 0 && !isJumping && jumpsLeft > 0 && OnGround)
         {
             jumpsLeft--;
             isJumping = true;
-            speed = jumpImpulse;
+            speed = speed > 0 ? speed + jumpImpulse : jumpImpulse;
         }
 
         if (isJumping && input == 0 && speed > 0 && !cutoffApplied)
@@ -63,9 +80,9 @@ public class Jump : MonoBehaviour
         }
     }
 
-    public void TouchGround()
+    public void TouchGround(float bounciness)
     {
-        StopSpeed();
+        speed = -speed * bounciness;
         lastOnGroundDate = Time.time;
         isJumping = false;
         cutoffApplied = false;
