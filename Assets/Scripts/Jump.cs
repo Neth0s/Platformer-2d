@@ -48,7 +48,15 @@ public class Jump : MonoBehaviour
     {
         GetInput();
 
-        if(speed > maxVerticalUpSpeed)
+        CheckVelocityCaps();
+
+        speed -= (speed < 0 ? fallMultiplier : 1) * gravity * Time.deltaTime;
+        transform.position += speed * Time.deltaTime * Vector3.up;
+    }
+
+    private void CheckVelocityCaps()
+    {
+        if (speed > maxVerticalUpSpeed)
         {
             speed = maxVerticalUpSpeed;
         }
@@ -56,9 +64,6 @@ public class Jump : MonoBehaviour
         {
             speed = -maxVerticalDownSpeed;
         }
-
-        speed -= (speed < 0 ? fallMultiplier : 1) * gravity * Time.deltaTime;
-        transform.position += speed * Time.deltaTime * Vector3.up;
     }
 
     private void GetInput()
