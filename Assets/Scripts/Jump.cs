@@ -17,6 +17,9 @@ public class Jump : MonoBehaviour
     [Tooltip("Percentage of vertical speed removed if jump button is released before end of jump.")]
     [SerializeField, Range(0, 100)] private int jumpCutoff = 50;
 
+    [SerializeField] float coyoteTime = 0.1f;
+    float lastOnGroundDate = -Mathf.Infinity;
+
     private Manette inputActions;
     private float speed = 0;
 
@@ -24,7 +27,6 @@ public class Jump : MonoBehaviour
     private bool isJumping = false;
     private bool cutoffApplied = false;
 
-    public bool OnGround { get; private set; } = false;
     public float VerticalSpeed { get { return speed; } }
 
     // Start is called before the first frame update
@@ -47,10 +49,9 @@ public class Jump : MonoBehaviour
     private void GetInput()
     {
         float input = inputActions.Player.Jump.ReadValue<float>();
-        if (input != 0 && jumpsLeft > 0)
+        if (input != 0 && jumpsLeft > 0 && Time.time <= lastOnGroundDate + coyoteTime)
         {
             jumpsLeft--;
-            OnGround = false;
             isJumping = true;
             speed = jumpImpulse;
         }
@@ -65,7 +66,7 @@ public class Jump : MonoBehaviour
     public void TouchGround()
     {
         StopSpeed();
-        OnGround = true;
+        lastOnGroundDate = Time.time;
         isJumping = false;
         cutoffApplied = false;
         jumpsLeft = maxJumps;
