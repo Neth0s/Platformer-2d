@@ -20,7 +20,7 @@ public class CollisionDetection : MonoBehaviour
     private void FixedUpdate()
     {
         // Detect collisions a frame ahead.
-        var nextPosition = transform.position + (Vector3)(Vector2.right * horizontalMovement.HorizontalSpeed * Time.fixedDeltaTime) + (Vector3)(Vector2.up * jump.VerticalSpeed * Time.fixedDeltaTime);
+        var nextPosition = transform.position + (Vector3)(Vector2.right * horizontalMovement.Speed * Time.fixedDeltaTime) + (Vector3)(Vector2.up * jump.VerticalSpeed * Time.fixedDeltaTime);
         var collisions = Physics2D.OverlapBoxAll(nextPosition, coll.size, 0);
 
         // Evaluate the direction of each collision.
