@@ -59,8 +59,6 @@ public class Jump : MonoBehaviour
 
         speed -= (speed < 0 ? fallMultiplier : 1) * gravity * Time.deltaTime;
         transform.position += speed * Time.deltaTime * Vector3.up;
-
-        Debug.Log(speed);
     }
 
     private void GetInput()
