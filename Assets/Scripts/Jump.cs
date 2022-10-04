@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,10 @@ public class Jump : MonoBehaviour
     [Tooltip("Percentage of vertical speed removed if jump button is released before end of jump.")]
     [SerializeField, Range(0, 100)] private int jumpCutoff = 50;
 
+    [SerializeField] float coyoteTime = 0.1f;
+    float lastOnGroundDate = -Mathf.Infinity;
+    public bool OnGround => Time.time <= lastOnGroundDate + coyoteTime;
+
     private Manette inputActions;
     private float speed = 0;
 
@@ -24,7 +29,9 @@ public class Jump : MonoBehaviour
     private bool isJumping = false;
     private bool cutoffApplied = false;
 
-    public bool OnGround { get; private set; } = false;
+    [SerializeField] float maxVerticalUpSpeed = 30f;
+    [SerializeField] float maxVerticalDownSpeed = 50f;
+
     public float VerticalSpeed { get { return speed; } }
 
     // Start is called before the first frame update
@@ -40,19 +47,33 @@ public class Jump : MonoBehaviour
     void FixedUpdate()
     {
         GetInput();
+
+        CheckVelocityCaps();
+
         speed -= (speed < 0 ? fallMultiplier : 1) * gravity * Time.deltaTime;
         transform.position += speed * Time.deltaTime * Vector3.up;
+    }
+
+    private void CheckVelocityCaps()
+    {
+        if (speed > maxVerticalUpSpeed)
+        {
+            speed = maxVerticalUpSpeed;
+        }
+        else if (speed < -maxVerticalDownSpeed)
+        {
+            speed = -maxVerticalDownSpeed;
+        }
     }
 
     private void GetInput()
     {
         float input = inputActions.Player.Jump.ReadValue<float>();
-        if (input != 0 && jumpsLeft > 0)
+        if (input != 0 && !isJumping && jumpsLeft > 0 && OnGround)
         {
             jumpsLeft--;
-            OnGround = false;
             isJumping = true;
-            speed = jumpImpulse;
+            speed = speed > 0 ? speed + jumpImpulse : jumpImpulse;
         }
 
         if (isJumping && input == 0 && speed > 0 && !cutoffApplied)
@@ -62,10 +83,10 @@ public class Jump : MonoBehaviour
         }
     }
 
-    public void TouchGround()
+    public void TouchGround(float bounciness)
     {
-        StopSpeed();
-        OnGround = true;
+        speed = -speed * bounciness;
+        lastOnGroundDate = Time.time;
         isJumping = false;
         cutoffApplied = false;
         jumpsLeft = maxJumps;
