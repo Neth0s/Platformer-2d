@@ -12,22 +12,83 @@ public class HorizontalMovement : MonoBehaviour
     private Manette inputActions;
     private float speed = 0;
 
-    public float HorizontalSpeed { get { return speed; } }
+    public float Speed { get { return speed; } }
 
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] float dashSpeed = 20f;
+    [SerializeField] float dashTime = .3f;
+    [SerializeField] float dashReloadTime = 1f;
+    float lastDashDate = -Mathf.Infinity;
+    bool isDashing = false;
+
+    enum Direction { Left, Right };
+
+    Direction lastDashDirection = Direction.Right;
+    Direction currentDirection = Direction.Right;
+
+    // TODO: Do the other way around and check in Jump if player isDashing rather than stop jumping here.
+    Jump jump;
+
+    void Awake()
     {
+        jump = GetComponent<Jump>();
+
         inputActions = new Manette();
         inputActions.Player.Move.Enable();
+        inputActions.Player.Dash.Enable();
     }
 
-    // Update is called once per frame
+    private void Update()
+    {
+        SetCurrentDirection();
+
+        CheckForDashStart();
+        CheckForDashEnd();
+    }
+
     void FixedUpdate()
     {
-        speed = Mathf.Lerp(speed, GetInput() * maxSpeed, Time.deltaTime / timeToMax);
+        if(!isDashing)
+        {
+            speed = Mathf.Lerp(speed, GetInput() * maxSpeed, Time.deltaTime / timeToMax);
+        }
+        else
+        {
+            jump.StopSpeed();
+            speed = dashSpeed * (lastDashDirection == Direction.Left ? -1 : 1);
+        }
+
         transform.position += speed * Time.deltaTime * Vector3.right;
     }
 
+    private void CheckForDashEnd()
+    {
+        if (isDashing && Time.time >= lastDashDate + dashTime)
+        {
+            isDashing = false;
+        }
+    }
+
+    private void CheckForDashStart()
+    {
+        if (inputActions.Player.Dash.ReadValue<float>() != 0 && Time.time >= lastDashDate + dashReloadTime)
+        {
+            isDashing = true;
+            lastDashDirection = currentDirection;
+            lastDashDate = Time.time;
+        }
+    }
+
+    private void SetCurrentDirection()
+    {
+        if (GetInput() > 0)
+        {
+            currentDirection = Direction.Right;
+        }
+        else if (GetInput() < 0)
+        {
+            currentDirection = Direction.Left;
+        }
+    }
 
     private float GetInput()
     {

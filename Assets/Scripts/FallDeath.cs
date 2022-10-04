@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class FallDeath : MonoBehaviour
 {
-    [SerializeField] float yThreshold = -5f;
+    [SerializeField] float yThreshold = -8f;
 
     [SerializeField] UnityEvent onFallDeath;
 
