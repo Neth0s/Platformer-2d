@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class HorizontalMovement : MonoBehaviour
@@ -12,7 +13,6 @@ public class HorizontalMovement : MonoBehaviour
     [Header("Aerial control")]
     [SerializeField, Range(0, 100)] private float airControl = 50f;
     [SerializeField, Range(0, 100)] private float airBrake = 50f;
-    [SerializeField, Range(0, 100)] private float airAcceleration = 50f;
 
     [Header("Dash")]
     [SerializeField] private float dashSpeed = 20f;
@@ -75,7 +75,11 @@ public class HorizontalMovement : MonoBehaviour
         {
             speed = Mathf.Lerp(speed, input * maxSpeed, Time.deltaTime / timeToReachMaxSpeed);
         }
-        else speed = dashSpeed * (dashDirection == Direction.Right ? 1 : -1);
+        else
+        {
+            speed = dashSpeed * (dashDirection == Direction.Right ? 1 : -1);
+            jumpController.StopSpeed();
+        }
 
         transform.position += speed * Time.deltaTime * Vector3.right;
     }
