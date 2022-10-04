@@ -22,9 +22,11 @@ public class HorizontalMovement : MonoBehaviour
     [SerializeField] private Color dashingColor;
     [SerializeField] private Color dashEmptyColor;
 
-
+    private float input = 0;
     private float speed = 0;
     public float Speed { get { return speed; } }
+
+    private bool airBrakeApplied = false;
 
     enum Direction { Left, Right };
     Direction dashDirection = Direction.Right;
@@ -35,25 +37,43 @@ public class HorizontalMovement : MonoBehaviour
     public DashState IsDashing { get; private set; } = DashState.Idle;
 
     private Manette inputActions;
+    private Jump jumpController;
 
     void Awake()
     {
         inputActions = new Manette();
         inputActions.Player.Move.Enable();
         inputActions.Player.Dash.Enable();
-    }
 
-    private void Update()
-    {
-        CheckForDashStart();
-        CheckForDashEnd();
+        jumpController = GetComponent<Jump>();
     }
 
     void FixedUpdate()
     {
-        if(IsDashing != DashState.Dashing)
+        input = inputActions.Player.Move.ReadValue<float>();
+
+        Movement();
+
+        CheckForDashStart();
+        CheckForDashEnd();
+    }
+
+    private void Movement()
+    {
+        if (!jumpController.OnGround)
         {
-            speed = Mathf.Lerp(speed, GetInput() * maxSpeed, Time.deltaTime / timeToReachMaxSpeed);
+            input *= airControl / 100f;
+
+            if (!airBrakeApplied && input == 0)
+            {
+                airBrakeApplied = true;
+                speed *= (100f - airBrake) / 100f;
+            }
+        }
+
+        if (IsDashing != DashState.Dashing)
+        {
+            speed = Mathf.Lerp(speed, input * maxSpeed, Time.deltaTime / timeToReachMaxSpeed);
         }
         else speed = dashSpeed * (dashDirection == Direction.Right ? 1 : -1);
 
@@ -66,7 +86,7 @@ public class HorizontalMovement : MonoBehaviour
         {
             IsDashing = DashState.Dashing;
             lastDashDate = Time.time;
-            dashDirection = GetInput() >= 0 ? Direction.Right : Direction.Left;
+            dashDirection = input >= 0 ? Direction.Right : Direction.Left;
 
             GetComponent<SpriteRenderer>().color = dashingColor;
         }
@@ -85,12 +105,6 @@ public class HorizontalMovement : MonoBehaviour
             IsDashing = DashState.Idle;
             GetComponent<SpriteRenderer>().color = Color.white;
         }
-    }
-
-    private float GetInput()
-    {
-        float input = inputActions.Player.Move.ReadValue<float>();
-        return input == 0 ? 0 : Mathf.Sign(input);
     }
 
     public void StopSpeed()
