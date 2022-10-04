@@ -5,15 +5,16 @@ using UnityEngine;
 public class HorizontalMovement : MonoBehaviour
 {
     [Header("Speed and acceleration")]
-    [SerializeField] private float maxSpeed = 10f;
+    [SerializeField] float maxSpeed = 10f;
     [Tooltip("Time necessary to get from 0 to max speed.")]
-    [SerializeField] private float timeToMax = 0.5f;
+    [SerializeField] float timeToReachMaxSpeed = 0.5f;
 
-    private Manette inputActions;
     private float speed = 0;
-
     public float Speed { get { return speed; } }
 
+    private Manette inputActions;
+
+    [Header("Dash")]
     [SerializeField] float dashSpeed = 20f;
     [SerializeField] float dashTime = .3f;
     [SerializeField] float dashReloadTime = 1f;
@@ -21,9 +22,8 @@ public class HorizontalMovement : MonoBehaviour
     bool isDashing = false;
 
     enum Direction { Left, Right };
-
-    Direction lastDashDirection = Direction.Right;
     Direction currentDirection = Direction.Right;
+    Direction lastDashDirection = Direction.Right;
 
     // TODO: Do the other way around and check in Jump if player isDashing rather than stop jumping here.
     Jump jump;
@@ -49,7 +49,7 @@ public class HorizontalMovement : MonoBehaviour
     {
         if(!isDashing)
         {
-            speed = Mathf.Lerp(speed, GetInput() * maxSpeed, Time.deltaTime / timeToMax);
+            speed = Mathf.Lerp(speed, GetInput() * maxSpeed, Time.deltaTime / timeToReachMaxSpeed);
         }
         else
         {
