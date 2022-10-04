@@ -631,6 +631,10 @@ PrefabInstance:
       propertyPath: dashReloadTime
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
+      propertyPath: timeToReachMaxSpeed
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 6937248890623432491, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
       propertyPath: m_RootOrder
       value: 1
