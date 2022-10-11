@@ -161,11 +161,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b203ab039b772cc458e6417a825f8424, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  acceleration: 80
+  desceleration: 80
   maxSpeed: 13
-  timeToReachMaxSpeed: 0.1
+  turnSpeed: 5
   airControl: 50
-  airBrake: 50
-  airAcceleration: 50
+  airBrake: 0
+  airTurnSpeed: 5
   dashSpeed: 30
   dashTime: 0.1
   dashReloadTime: 1
@@ -183,11 +185,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c0a6e813591cc4bacd1a5df5d7a729, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxUpSpeed: 30
+  maxDownSpeed: 50
   maxJumps: 2
   jumpImpulse: 10
   gravity: 20
   fallMultiplier: 1.5
   jumpCutoff: 50
+  coyoteTime: 0.1
 --- !u!114 &1697647013
 MonoBehaviour:
   m_ObjectHideFlags: 0

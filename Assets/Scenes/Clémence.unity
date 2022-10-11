@@ -1265,6 +1265,10 @@ PrefabInstance:
       propertyPath: onFallDeath.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetActive
       objectReference: {fileID: 0}
+    - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
+      propertyPath: speed
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6937248890623432491, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
       propertyPath: m_RootOrder
       value: 1
