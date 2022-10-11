@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 
 public class Jump : MonoBehaviour
 {
     [Header("Speed")]
-    [SerializeField] private float maxUpSpeed = 30f;
-    [SerializeField] private float maxDownSpeed = 50f;
+    [SerializeField, Min(0)] private float maxUpSpeed = 30f;
+    [SerializeField, Min(0)] private float maxDownSpeed = 50f;
 
     [Header("Jump parameters")]
     [SerializeField, Range(0, 10)] private int maxJumps = 2;
@@ -15,27 +16,23 @@ public class Jump : MonoBehaviour
 
     [Header("Falling")]
     [SerializeField] private float gravity = 10f;
-
-    [Tooltip("Multiplier applied to gravity when falling.")]
     [SerializeField, Range(1, 10)] private float fallMultiplier = 1.5f;
-
     [Tooltip("Percentage of vertical speed removed if jump button is released before end of jump.")]
     [SerializeField, Range(0, 100)] private int jumpCutoff = 50;
+    [SerializeField] private float coyoteTime = 0.1f;
 
-    [SerializeField] float coyoteTime = 0.1f;
+
     float lastOnGroundDate = -Mathf.Infinity;
     public bool OnGround => Time.time <= lastOnGroundDate + coyoteTime;
-
-    private Manette inputActions;
-    private float speed = 0;
+    public float VerticalSpeed { get; private set; } = 0;
 
     private int jumpsLeft;
     private bool isJumping = false;
     private bool cutoffApplied = false;
 
-    public float VerticalSpeed { get { return speed; } }
+    private Manette inputActions;
 
-    // Start is called before the first frame update
+
     void Start()
     {
         inputActions = new Manette();
@@ -44,49 +41,37 @@ public class Jump : MonoBehaviour
         jumpsLeft = maxJumps;
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         GetInput();
 
-        CheckVelocityCaps();
+        VerticalSpeed -= (VerticalSpeed < 0 ? fallMultiplier : 1) * gravity * Time.deltaTime;
+        VerticalSpeed = Math.Clamp(VerticalSpeed, -maxDownSpeed, maxUpSpeed);
 
-        speed -= (speed < 0 ? fallMultiplier : 1) * gravity * Time.deltaTime;
-        transform.position += speed * Time.deltaTime * Vector3.up;
-    }
-
-    private void CheckVelocityCaps()
-    {
-        if (speed > maxUpSpeed)
-        {
-            speed = maxUpSpeed;
-        }
-        else if (speed < -maxDownSpeed)
-        {
-            speed = -maxDownSpeed;
-        }
+        transform.position += VerticalSpeed * Time.deltaTime * Vector3.up;
     }
 
     private void GetInput()
     {
         float input = inputActions.Player.Jump.ReadValue<float>();
+
         if (input != 0 && !isJumping && jumpsLeft > 0 && OnGround)
         {
             jumpsLeft--;
             isJumping = true;
-            speed = speed > 0 ? speed + jumpImpulse : jumpImpulse;
+            VerticalSpeed = VerticalSpeed > 0 ? VerticalSpeed + jumpImpulse : jumpImpulse;
         }
 
-        if (isJumping && input == 0 && speed > 0 && !cutoffApplied)
+        if (isJumping && input == 0 && VerticalSpeed > 0 && !cutoffApplied)
         {
-            speed *= (100f - jumpCutoff) / 100f;
+            VerticalSpeed *= (100f - jumpCutoff) / 100f;
             cutoffApplied = true;
         }
     }
 
     public void TouchGround(float bounciness)
     {
-        speed = -speed * bounciness;
+        VerticalSpeed = -VerticalSpeed * bounciness;
         lastOnGroundDate = Time.time;
         isJumping = false;
 
@@ -98,6 +83,6 @@ public class Jump : MonoBehaviour
 
     public void StopSpeed()
     {
-        speed = 0;
+        VerticalSpeed = 0;
     }
 }

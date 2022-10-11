@@ -30,6 +30,7 @@ public class HorizontalMovement : MonoBehaviour
     [SerializeField] private Color dashingColor;
     [SerializeField] private Color dashEmptyColor;
 
+
     private float input = 0;
     public float Speed { get; private set; } = 0;
     public bool AirBrakeApplied { get; set; } = false;
@@ -44,6 +45,7 @@ public class HorizontalMovement : MonoBehaviour
 
     private Manette inputActions;
     private Jump jumpController;
+
 
     void Awake()
     {
@@ -69,8 +71,10 @@ public class HorizontalMovement : MonoBehaviour
         input = inputActions.Player.Move.ReadValue<float>();
 
         Movement();
+        UpdateDashState();
 
-        CheckForDashEnd();
+        playerDirection = Speed >= 0 ? Direction.Right : Direction.Left;
+        transform.position += Speed * Time.deltaTime * Vector3.right;
     }
 
     private void Movement()
@@ -86,38 +90,33 @@ public class HorizontalMovement : MonoBehaviour
             }
         }
 
-        if (IsDashing != DashState.Dashing)
-        {
-            if (input != 0)
-            {
-                float turnMultiplier = (
-                    playerDirection == Direction.Right && input < 0 ||
-                    playerDirection == Direction.Left && input > 0) 
-                    ? turnSpeed : 1;
-
-                Speed += turnMultiplier * acceleration * input * Time.deltaTime;
-                Speed = Mathf.Clamp(Speed, -maxSpeed, maxSpeed);
-            }
-            else if (playerDirection == Direction.Right)
-            {
-                Speed -= desceleration * Time.deltaTime;
-                Speed = Mathf.Max(0, Speed);
-            }
-            else
-            {
-                Speed += desceleration * Time.deltaTime;
-                Speed = Mathf.Min(0, Speed);
-            }
-        }
-        else
+        if (IsDashing == DashState.Dashing)
         {
             Speed = dashSpeed * (dashDirection == Direction.Right ? 1 : -1);
             jumpController.StopSpeed();
+            return;
         }
 
-        playerDirection = Speed >= 0 ? Direction.Right : Direction.Left;
-        transform.position += Speed * Time.deltaTime * Vector3.right;
-        Debug.Log(Speed);
+        if (input != 0)
+        {
+            float turnMultiplier = (
+                playerDirection == Direction.Right && input < 0 ||
+                playerDirection == Direction.Left && input > 0)
+                ? turnSpeed : 1;
+
+            Speed += turnMultiplier * acceleration * input * Time.deltaTime;
+            Speed = Mathf.Clamp(Speed, -maxSpeed, maxSpeed);
+        }
+        else if (playerDirection == Direction.Right)
+        {
+            Speed -= desceleration * Time.deltaTime;
+            Speed = Mathf.Max(0, Speed);
+        }
+        else
+        {
+            Speed += desceleration * Time.deltaTime;
+            Speed = Mathf.Min(0, Speed);
+        }
     }
 
     private void OnDash(InputAction.CallbackContext obj)
@@ -132,8 +131,10 @@ public class HorizontalMovement : MonoBehaviour
         }
     }
 
-    private void CheckForDashEnd()
+    private void UpdateDashState()
     {
+        if (IsDashing == DashState.Idle) return;
+
         if (IsDashing == DashState.Dashing && Time.time >= lastDashDate + dashTime)
         {
             IsDashing = DashState.Cooldown;
