@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class Jump : MonoBehaviour
 {
+    [Header("Speed")]
+    [SerializeField] private float maxUpSpeed = 30f;
+    [SerializeField] private float maxDownSpeed = 50f;
+
     [Header("Jump parameters")]
     [SerializeField, Range(0, 10)] private int maxJumps = 2;
     [SerializeField, Range(0, 50)] private float jumpImpulse = 10f;
@@ -28,9 +32,6 @@ public class Jump : MonoBehaviour
     private int jumpsLeft;
     private bool isJumping = false;
     private bool cutoffApplied = false;
-
-    [SerializeField] float maxVerticalUpSpeed = 30f;
-    [SerializeField] float maxVerticalDownSpeed = 50f;
 
     public float VerticalSpeed { get { return speed; } }
 
@@ -56,13 +57,13 @@ public class Jump : MonoBehaviour
 
     private void CheckVelocityCaps()
     {
-        if (speed > maxVerticalUpSpeed)
+        if (speed > maxUpSpeed)
         {
-            speed = maxVerticalUpSpeed;
+            speed = maxUpSpeed;
         }
-        else if (speed < -maxVerticalDownSpeed)
+        else if (speed < -maxDownSpeed)
         {
-            speed = -maxVerticalDownSpeed;
+            speed = -maxDownSpeed;
         }
     }
 
@@ -88,8 +89,11 @@ public class Jump : MonoBehaviour
         speed = -speed * bounciness;
         lastOnGroundDate = Time.time;
         isJumping = false;
+
         cutoffApplied = false;
         jumpsLeft = maxJumps;
+
+        GetComponent<HorizontalMovement>().AirBrakeApplied = false;
     }
 
     public void StopSpeed()

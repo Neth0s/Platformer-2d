@@ -5,14 +5,20 @@ using UnityEngine;
 
 public class HorizontalMovement : MonoBehaviour
 {
+    enum Direction { Left, Right };
+
     [Header("Speed and acceleration")]
-    [SerializeField] private float maxSpeed = 10f;
-    [Tooltip("Time necessary to get from 0 to max speed.")]
-    [SerializeField] private float timeToReachMaxSpeed = 0.5f;
+    [SerializeField, Min(0)] private float acceleration = 40f;
+    [SerializeField, Min(0)] private float desceleration = 40f;
+    [SerializeField, Min(0)] private float maxSpeed = 10f;
+
+    [Header("Ground controls")]
+    [SerializeField, Min(0)] private float turnSpeed = 5f;
 
     [Header("Aerial control")]
     [SerializeField, Range(0, 100)] private float airControl = 50f;
     [SerializeField, Range(0, 100)] private float airBrake = 50f;
+    [SerializeField, Min(0)] private float airTurnSpeed = 5f;
 
     [Header("Dash")]
     [SerializeField] private float dashSpeed = 20f;
@@ -23,13 +29,11 @@ public class HorizontalMovement : MonoBehaviour
     [SerializeField] private Color dashEmptyColor;
 
     private float input = 0;
-    private float speed = 0;
-    public float Speed { get { return speed; } }
+    public float Speed { get; private set; } = 0;
+    public bool AirBrakeApplied { get; set; } = false;
 
-    private bool airBrakeApplied = false;
-
-    enum Direction { Left, Right };
-    Direction dashDirection = Direction.Right;
+    private Direction playerDirection = Direction.Right;
+    private Direction dashDirection = Direction.Right;
 
     float lastDashDate = -Mathf.Infinity;
 
@@ -64,24 +68,45 @@ public class HorizontalMovement : MonoBehaviour
         {
             input *= airControl / 100f;
 
-            if (!airBrakeApplied && input == 0)
+            if (!AirBrakeApplied && input == 0)
             {
-                airBrakeApplied = true;
-                speed *= (100f - airBrake) / 100f;
+                AirBrakeApplied = true;
+                Speed *= (100f - airBrake) / 100f;
             }
         }
 
         if (IsDashing != DashState.Dashing)
         {
-            speed = Mathf.Lerp(speed, input * maxSpeed, Time.deltaTime / timeToReachMaxSpeed);
+            if (input != 0)
+            {
+                float turnMultiplier = (
+                    playerDirection == Direction.Right && input < 0 ||
+                    playerDirection == Direction.Left && input > 0) 
+                    ? turnSpeed : 1;
+
+                Speed += turnMultiplier * acceleration * input * Time.deltaTime;
+                Speed = Mathf.Clamp(Speed, -maxSpeed, maxSpeed);
+            }
+            else if (playerDirection == Direction.Right)
+            {
+                Speed -= desceleration * Time.deltaTime;
+                Speed = Mathf.Max(0, Speed);
+            }
+            else
+            {
+                Speed += desceleration * Time.deltaTime;
+                Speed = Mathf.Min(0, Speed);
+            }
         }
         else
         {
-            speed = dashSpeed * (dashDirection == Direction.Right ? 1 : -1);
+            Speed = dashSpeed * (dashDirection == Direction.Right ? 1 : -1);
             jumpController.StopSpeed();
         }
 
-        transform.position += speed * Time.deltaTime * Vector3.right;
+        playerDirection = Speed >= 0 ? Direction.Right : Direction.Left;
+        transform.position += Speed * Time.deltaTime * Vector3.right;
+        Debug.Log(Speed);
     }
 
     private void CheckForDashStart()
@@ -113,6 +138,6 @@ public class HorizontalMovement : MonoBehaviour
 
     public void StopSpeed()
     {
-        speed = 0;
+        Speed = 0;
     }
 }
