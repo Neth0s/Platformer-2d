@@ -18,8 +18,8 @@ public class HorizontalMovement : MonoBehaviour
     [SerializeField, Min(0)] private float turnSpeed = 5f;
 
     [Header("Aerial control")]
-    [SerializeField, Range(0, 100)] private float airControl = 50f;
-    [SerializeField, Range(0, 100)] private float airBrake = 50f;
+    [SerializeField, Range(0, 1)] private float airControl = 0.5f;
+    [SerializeField, Range(0, 1)] private float airBrake = 0.5f;
     [SerializeField, Min(0)] private float airTurnSpeed = 5f;
 
     [Header("Dash")]
@@ -81,13 +81,9 @@ public class HorizontalMovement : MonoBehaviour
     {
         if (!jumpController.OnGround)
         {
-            input *= airControl / 100f;
+            input *= airControl;
 
-            if (!AirBrakeApplied && input == 0)
-            {
-                AirBrakeApplied = true;
-                Speed *= (100f - airBrake) / 100f;
-            }
+            
         }
 
         if (IsDashing == DashState.Dashing)
@@ -107,15 +103,20 @@ public class HorizontalMovement : MonoBehaviour
             Speed += turnMultiplier * acceleration * input * Time.deltaTime;
             Speed = Mathf.Clamp(Speed, -maxSpeed, maxSpeed);
         }
-        else if (playerDirection == Direction.Right)
-        {
-            Speed -= desceleration * Time.deltaTime;
-            Speed = Mathf.Max(0, Speed);
-        }
         else
         {
-            Speed += desceleration * Time.deltaTime;
-            Speed = Mathf.Min(0, Speed);
+            float brakeMultiplier = jumpController.OnGround ? 1 : airBrake;
+
+            if (playerDirection == Direction.Right)
+            {
+                Speed -= brakeMultiplier * desceleration * Time.deltaTime;
+                Speed = Mathf.Max(0, Speed);
+            }
+            else
+            {
+                Speed += brakeMultiplier * desceleration * Time.deltaTime;
+                Speed = Mathf.Min(0, Speed);
+            }
         }
     }
 

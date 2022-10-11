@@ -18,7 +18,7 @@ public class Jump : MonoBehaviour
     [SerializeField] private float gravity = 10f;
     [SerializeField, Range(1, 10)] private float fallMultiplier = 1.5f;
     [Tooltip("Percentage of vertical speed removed if jump button is released before end of jump.")]
-    [SerializeField, Range(0, 100)] private int jumpCutoff = 50;
+    [SerializeField, Range(0, 1)] private float jumpCutoff = 0.5f;
     [SerializeField] private float coyoteTime = 0.1f;
 
 
@@ -64,7 +64,7 @@ public class Jump : MonoBehaviour
 
         if (isJumping && input == 0 && VerticalSpeed > 0 && !cutoffApplied)
         {
-            VerticalSpeed *= (100f - jumpCutoff) / 100f;
+            VerticalSpeed *= 1 - jumpCutoff;
             cutoffApplied = true;
         }
     }

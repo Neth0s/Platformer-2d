@@ -165,8 +165,8 @@ MonoBehaviour:
   desceleration: 80
   maxSpeed: 13
   turnSpeed: 5
-  airControl: 50
-  airBrake: 0
+  airControl: 0.25
+  airBrake: 0.6
   airTurnSpeed: 5
   dashSpeed: 30
   dashTime: 0.1
@@ -188,10 +188,10 @@ MonoBehaviour:
   maxUpSpeed: 30
   maxDownSpeed: 50
   maxJumps: 2
-  jumpImpulse: 10
-  gravity: 20
+  jumpImpulse: 15
+  gravity: 30
   fallMultiplier: 1.5
-  jumpCutoff: 50
+  jumpCutoff: 0.5
   coyoteTime: 0.1
 --- !u!114 &1697647013
 MonoBehaviour:
