@@ -79,12 +79,9 @@ public class HorizontalMovement : MonoBehaviour
 
     private void Movement()
     {
-        if (!jumpController.OnGround)
-        {
-            input *= airControl;
+        bool onGround = jumpController.OnGround;
 
-            
-        }
+        if (!onGround) input *= airControl;
 
         if (IsDashing == DashState.Dashing)
         {
@@ -95,17 +92,20 @@ public class HorizontalMovement : MonoBehaviour
 
         if (input != 0)
         {
-            float turnMultiplier = (
-                playerDirection == Direction.Right && input < 0 ||
+            float turnMultiplier = 1;
+            if (playerDirection == Direction.Right && input < 0 ||
                 playerDirection == Direction.Left && input > 0)
-                ? turnSpeed : 1;
+            {
+                if (onGround) turnMultiplier = turnSpeed;
+                else turnMultiplier = airTurnSpeed;
+            }
 
             Speed += turnMultiplier * acceleration * input * Time.deltaTime;
             Speed = Mathf.Clamp(Speed, -maxSpeed, maxSpeed);
         }
         else
         {
-            float brakeMultiplier = jumpController.OnGround ? 1 : airBrake;
+            float brakeMultiplier = onGround ? 1 : airBrake;
 
             if (playerDirection == Direction.Right)
             {
