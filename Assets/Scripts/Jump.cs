@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 public class Jump : MonoBehaviour
 {
@@ -19,12 +21,16 @@ public class Jump : MonoBehaviour
     [SerializeField, Range(1, 10)] private float fallMultiplier = 1.5f;
     [Tooltip("Percentage of vertical speed removed if jump button is released before end of jump.")]
     [SerializeField, Range(0, 1)] private float jumpCutoff = 0.5f;
+
+    [Header("Buffers")]
+    [SerializeField] private float jumpBuffer = 0.1f;
     [SerializeField] private float coyoteTime = 0.1f;
 
-
-    float lastOnGroundDate = -Mathf.Infinity;
     public bool OnGround => Time.time <= lastOnGroundDate + coyoteTime;
     public float VerticalSpeed { get; private set; } = 0;
+
+    float lastOnGroundDate = -Mathf.Infinity;
+    float lastJumpTap = -Mathf.Infinity;
 
     private int jumpsLeft;
     private bool isJumping = false;
@@ -33,12 +39,22 @@ public class Jump : MonoBehaviour
     private Manette inputActions;
 
 
-    void Start()
+    void Awake()
     {
         inputActions = new Manette();
         inputActions.Player.Jump.Enable();
 
         jumpsLeft = maxJumps;
+    }
+
+    private void OnEnable()
+    {
+        inputActions.Player.Jump.performed += OnJump;
+    }
+
+    private void OnDisable()
+    {
+        inputActions.Player.Jump.performed -= OnJump;
     }
 
     void FixedUpdate()
@@ -51,19 +67,26 @@ public class Jump : MonoBehaviour
         transform.position += VerticalSpeed * Time.deltaTime * Vector3.up;
     }
 
-    private void GetInput()
-    {
-        float input = inputActions.Player.Jump.ReadValue<float>();
+    private void OnJump(InputAction.CallbackContext obj) => JumpAction();
 
-        if (input != 0 && !isJumping && jumpsLeft > 0 && OnGround)
+    private void JumpAction()
+    {
+        if (jumpsLeft > 0)
         {
             jumpsLeft--;
             isJumping = true;
             VerticalSpeed = VerticalSpeed > 0 ? VerticalSpeed + jumpImpulse : jumpImpulse;
         }
+        else lastJumpTap = Time.time;
+    }
 
-        if (isJumping && input == 0 && VerticalSpeed > 0 && !cutoffApplied)
+    private void GetInput()
+    {
+        if (isJumping && !cutoffApplied && VerticalSpeed > 0)
         {
+            //Didn't release jump
+            if (inputActions.Player.Jump.ReadValue<float>() != 0) return;
+
             VerticalSpeed *= 1 - jumpCutoff;
             cutoffApplied = true;
         }
@@ -79,6 +102,12 @@ public class Jump : MonoBehaviour
         jumpsLeft = maxJumps;
 
         GetComponent<HorizontalMovement>().AirBrakeApplied = false;
+
+        if (lastJumpTap != -Mathf.Infinity)
+        {
+            if (Time.time <= lastJumpTap + jumpBuffer) JumpAction();
+            else lastJumpTap = -Mathf.Infinity;
+        }
     }
 
     public void StopSpeed()
