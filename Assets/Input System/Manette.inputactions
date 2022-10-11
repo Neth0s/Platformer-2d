@@ -179,6 +179,17 @@
                 },
                 {
                     "name": "",
+                    "id": "87ec4a3a-7dc6-41e0-9c29-279a84a82466",
+                    "path": "<Keyboard>/rightShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "d6a9bb4e-1ec2-41e1-a6af-6903a8300366",
                     "path": "<Keyboard>/downArrow",
                     "interactions": "",

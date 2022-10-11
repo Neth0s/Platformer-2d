@@ -9,15 +9,24 @@ public class FallDeath : MonoBehaviour
     [SerializeField] private float yThreshold = -8f;
     [SerializeField] private float restartDelay = 1f;
 
-    [SerializeField] UnityEvent onFallDeath;
+    [SerializeField] private GameObject deathParticles;
+
+    private bool dead = false;
 
     private void Update()
     {
-        if (transform.position.y < yThreshold) StartCoroutine(RestartScene());
+        if (transform.position.y < yThreshold && !dead)
+        {
+            StartCoroutine(RestartScene());
+            dead = true;
+        }
     }
 
     private IEnumerator RestartScene()
     {
+        GameObject particles = Instantiate(deathParticles);
+        particles.transform.position = transform.position;
+
         yield return new WaitForSeconds(restartDelay);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

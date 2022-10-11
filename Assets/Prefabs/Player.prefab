@@ -5086,21 +5086,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   yThreshold: -5
-  onFallDeath:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+  restartDelay: 1
+  deathParticles: {fileID: 5107554950338607547, guid: 6d90804cd1cbd054ebd096c0408ca7af, type: 3}
 --- !u!198 &2472810527806173624
 ParticleSystem:
   m_ObjectHideFlags: 0

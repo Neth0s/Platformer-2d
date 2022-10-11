@@ -1251,7 +1251,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1697647013, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
       propertyPath: yThreshold
-      value: -10
+      value: -8
       objectReference: {fileID: 0}
     - target: {fileID: 1697647013, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
       propertyPath: onFallDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
