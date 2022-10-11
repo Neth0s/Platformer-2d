@@ -17,8 +17,9 @@ public class FallDeath : MonoBehaviour
     {
         if (transform.position.y < yThreshold && !dead)
         {
-            StartCoroutine(RestartScene());
             dead = true;
+            GetComponent<SpriteRenderer>().enabled = false;
+            StartCoroutine(RestartScene());
         }
     }
 

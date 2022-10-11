@@ -22,11 +22,15 @@ public class Jump : MonoBehaviour
     [Tooltip("Percentage of vertical speed removed if jump button is released before end of jump.")]
     [SerializeField, Range(0, 1)] private float jumpCutoff = 0.5f;
 
+    [Header("Wall jump")]
+    [SerializeField, Min(0)] private float wallSlideSpeed = 5f;
+
     [Header("Buffers")]
-    [SerializeField] private float jumpBuffer = 0.1f;
-    [SerializeField] private float coyoteTime = 0.1f;
+    [SerializeField, Min(0)] private float jumpBuffer = 0.1f;
+    [SerializeField, Min(0)] private float coyoteTime = 0.1f;
 
     public bool OnGround => Time.time <= lastOnGroundDate + coyoteTime;
+    public bool OnWall { get; set; } = false;
     public float VerticalSpeed { get; private set; } = 0;
 
     float lastOnGroundDate = -Mathf.Infinity;
@@ -62,7 +66,9 @@ public class Jump : MonoBehaviour
         GetInput();
 
         VerticalSpeed -= (VerticalSpeed < 0 ? fallMultiplier : 1) * gravity * Time.deltaTime;
-        VerticalSpeed = Math.Clamp(VerticalSpeed, -maxDownSpeed, maxUpSpeed);
+        
+        if (OnWall) VerticalSpeed = Math.Clamp(VerticalSpeed, -wallSlideSpeed, maxUpSpeed);
+        else VerticalSpeed = Math.Clamp(VerticalSpeed, -maxDownSpeed, maxUpSpeed);
 
         transform.position += VerticalSpeed * Time.deltaTime * Vector3.up;
     }

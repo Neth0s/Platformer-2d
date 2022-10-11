@@ -20,7 +20,10 @@ public class CollisionDetection : MonoBehaviour
     private void FixedUpdate()
     {
         // Detect collisions a frame ahead.
-        var nextPosition = transform.position + (Vector3)(Vector2.right * horizontalMovement.Speed * Time.fixedDeltaTime) + (Vector3)(Vector2.up * jump.VerticalSpeed * Time.fixedDeltaTime);
+        var nextPosition = transform.position 
+            + (Vector3)(horizontalMovement.Speed * Time.fixedDeltaTime * Vector2.right) 
+            + (Vector3)(jump.VerticalSpeed * Time.fixedDeltaTime * Vector2.up);
+
         var collisions = Physics2D.OverlapBoxAll(nextPosition, coll.size, 0);
 
         // Evaluate the direction of each collision.
@@ -47,11 +50,13 @@ public class CollisionDetection : MonoBehaviour
         {
             transform.position = new Vector3(leftToRightCollisions[0].bounds.min.x - coll.size.x * transform.localScale.x / 2 - epsilon, transform.position.y, transform.position.z);
             horizontalMovement.StopSpeed();
+            jump.OnWall = true;
         }
         if (rightToLeftCollisions.Count > 0)
         {
             transform.position = new Vector3(rightToLeftCollisions[0].bounds.max.x + coll.size.x * transform.localScale.x / 2 + epsilon, transform.position.y, transform.position.z);
             horizontalMovement.StopSpeed();
+            jump.OnWall = true;
         }
         if (bottomToUpCollisions.Count > 0)
         {
@@ -63,5 +68,7 @@ public class CollisionDetection : MonoBehaviour
             transform.position = new Vector3(transform.position.x, upToBottomCollisions[0].bounds.max.y + coll.size.y * transform.localScale.y / 2 + epsilon, transform.position.z);
             jump.TouchGround(upToBottomCollisions[0].bounciness);
         }
+
+        if (leftToRightCollisions.Count == 0 && rightToLeftCollisions.Count == 0) jump.OnWall = false;
     }
 }
