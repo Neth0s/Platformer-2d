@@ -50,13 +50,13 @@ public class CollisionDetection : MonoBehaviour
         {
             transform.position = new Vector3(leftCollisions[0].bounds.min.x - coll.size.x * transform.localScale.x / 2 - epsilon, transform.position.y, transform.position.z);
             horizontalMovement.StopSpeed();
-            jump.OnWall = Direction.Left;
+            jump.OnWall = Direction.Right;
         }
         if (rightCollisions.Count > 0)
         {
             transform.position = new Vector3(rightCollisions[0].bounds.max.x + coll.size.x * transform.localScale.x / 2 + epsilon, transform.position.y, transform.position.z);
             horizontalMovement.StopSpeed();
-            jump.OnWall = Direction.Right;
+            jump.OnWall = Direction.Left;
         }
         if (bottomCollisions.Count > 0)
         {
