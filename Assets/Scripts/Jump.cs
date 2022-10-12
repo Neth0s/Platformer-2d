@@ -12,6 +12,7 @@ public class Jump : MonoBehaviour
     [Header("Speed")]
     [SerializeField, Min(0)] private float maxUpSpeed = 30f;
     [SerializeField, Min(0)] private float maxDownSpeed = 50f;
+    [SerializeField, Min(0)] private float fastFallSpeed = 30f;
 
     [Header("Jump parameters")]
     [SerializeField, Min(0)] private int maxJumps = 2;
@@ -37,6 +38,8 @@ public class Jump : MonoBehaviour
     [Header("Animation")]
     [SerializeField, Range(1, 2)] private float jumpSquash = 1.5f;
     [SerializeField, Range(1, 2)] private float landSquash = 1.5f;
+    [SerializeField, Range(0, 1)] private float fastfallSquash = 0.25f;
+    [SerializeField, Range(1, 2)] private float fastfallStretch = 1.5f;
 
     public bool OnGround => Time.time <= lastOnGroundDate + coyoteTime;
     public Direction OnWall { get; set; } = Direction.None;
@@ -49,6 +52,7 @@ public class Jump : MonoBehaviour
     private int jumpsLeft;
     private float wallJumpRadian;
     private bool isJumping = false;
+    private bool isFastfall = false;
     private bool cutoffApplied = false;
 
     private HorizontalMovement movement;
@@ -77,6 +81,7 @@ public class Jump : MonoBehaviour
 
         inputActions = new Manette();
         inputActions.Player.Jump.Enable();
+        inputActions.Player.Fastfall.Enable();
 
         jumpsLeft = maxJumps;
         wallJumpRadian = wallJumpAngle *Mathf.PI / 180f;
@@ -99,8 +104,8 @@ public class Jump : MonoBehaviour
 
         VerticalSpeed -= (VerticalSpeed < 0 ? fallMultiplier : 1) * gravity * Time.deltaTime;
 
-        VerticalSpeed = Math.Clamp(VerticalSpeed, -maxDownSpeed, maxUpSpeed);
-        if (OnWall != Direction.None && VerticalSpeed < -wallSlideSpeed) VerticalSpeed = -wallSlideSpeed;
+        float maxFallSpeed = OnWall != Direction.None ? -wallSlideSpeed : -maxDownSpeed;
+        VerticalSpeed = Math.Clamp(VerticalSpeed, maxFallSpeed, maxUpSpeed);
 
         transform.position += VerticalSpeed * Time.deltaTime * Vector3.up;
     }
@@ -114,6 +119,14 @@ public class Jump : MonoBehaviour
 
             VerticalSpeed *= 1 - jumpCutoff;
             cutoffApplied = true;
+        }
+
+        if (isJumping && !isFastfall && OnWall == Direction.None &&
+            inputActions.Player.Fastfall.ReadValue<float>() != 0)
+        {
+            VerticalSpeed = -fastFallSpeed;
+            isFastfall = true;
+            animator.FastStretch(fastfallSquash, fastfallStretch);
         }
     }
 
@@ -163,6 +176,7 @@ public class Jump : MonoBehaviour
         if (!leftGround) return;
 
         isJumping = false;
+        isFastfall = false;
         cutoffApplied = false;
         jumpsLeft = maxJumps;
 

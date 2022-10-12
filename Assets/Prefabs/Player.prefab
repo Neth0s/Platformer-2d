@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
+  fastSpeed: 4
 --- !u!96 &6768542817708736704
 TrailRenderer:
   serializedVersion: 2
@@ -328,10 +329,10 @@ MonoBehaviour:
   dashSpeed: 30
   dashTime: 0.1
   dashReloadTime: 1
-  trailTime: 0.25
   runAngle: -15
   dashingColor: {r: 0, g: 0, b: 1, a: 1}
   dashEmptyColor: {r: 1, g: 1, b: 0, a: 1}
+  trailTime: 0.25
 --- !u!114 &6224878515104927682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,6 +347,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxUpSpeed: 30
   maxDownSpeed: 50
+  fastFallSpeed: 35
   maxJumps: 2
   jumpImpulse: 15
   burstParticles: {fileID: 6461465920845842017, guid: f08ac6955c5daea43a5793d6e3069e47, type: 3}
@@ -360,6 +362,8 @@ MonoBehaviour:
   coyoteTime: 0.1
   jumpSquash: 1.6
   landSquash: 1.3
+  fastfallSquash: 0.25
+  fastfallStretch: 1.5
 --- !u!114 &1697647013
 MonoBehaviour:
   m_ObjectHideFlags: 0
