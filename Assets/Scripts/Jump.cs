@@ -15,6 +15,7 @@ public class Jump : MonoBehaviour
     [Header("Jump parameters")]
     [SerializeField, Range(0, 10)] private int maxJumps = 2;
     [SerializeField, Range(0, 50)] private float jumpImpulse = 10f;
+    [SerializeField] private GameObject burstParticles;
 
     [Header("Falling")]
     [SerializeField] private float gravity = 10f;
@@ -33,18 +34,21 @@ public class Jump : MonoBehaviour
     public bool OnWall { get; set; } = false;
     public float VerticalSpeed { get; private set; } = 0;
 
-    float lastOnGroundDate = -Mathf.Infinity;
-    float lastJumpTap = -Mathf.Infinity;
+    private bool leftGround = false;
+    private float lastOnGroundDate = -Mathf.Infinity;
+    private float lastJumpTap = -Mathf.Infinity;
 
     private int jumpsLeft;
     private bool isJumping = false;
     private bool cutoffApplied = false;
 
     private Manette inputActions;
-
+    private ParticleSystem particles;
 
     void Awake()
     {
+        particles = GetComponent<ParticleSystem>();
+
         inputActions = new Manette();
         inputActions.Player.Jump.Enable();
 
@@ -64,6 +68,7 @@ public class Jump : MonoBehaviour
     void FixedUpdate()
     {
         GetInput();
+        if (!OnGround && !leftGround) LeaveGround();
 
         VerticalSpeed -= (VerticalSpeed < 0 ? fallMultiplier : 1) * gravity * Time.deltaTime;
         
@@ -71,19 +76,6 @@ public class Jump : MonoBehaviour
         else VerticalSpeed = Math.Clamp(VerticalSpeed, -maxDownSpeed, maxUpSpeed);
 
         transform.position += VerticalSpeed * Time.deltaTime * Vector3.up;
-    }
-
-    private void OnJump(InputAction.CallbackContext obj) => JumpAction();
-
-    private void JumpAction()
-    {
-        if (jumpsLeft > 0)
-        {
-            jumpsLeft--;
-            isJumping = true;
-            VerticalSpeed = VerticalSpeed > 0 ? VerticalSpeed + jumpImpulse : jumpImpulse;
-        }
-        else lastJumpTap = Time.time;
     }
 
     private void GetInput()
@@ -98,6 +90,28 @@ public class Jump : MonoBehaviour
         }
     }
 
+    private void OnJump(InputAction.CallbackContext obj) => JumpAction();
+
+    private void JumpAction()
+    {
+        if (jumpsLeft > 0)
+        {
+            LeaveGround();
+
+            jumpsLeft--;
+            isJumping = true;
+            VerticalSpeed = jumpImpulse;
+            Destroy(Instantiate(burstParticles, transform), 1);
+        }
+        else lastJumpTap = Time.time;
+    }
+
+    private void LeaveGround()
+    {
+        leftGround = true;
+        particles.Stop();
+    }
+
     public void TouchGround(float bounciness)
     {
         VerticalSpeed = -VerticalSpeed * bounciness;
@@ -109,6 +123,12 @@ public class Jump : MonoBehaviour
 
         GetComponent<HorizontalMovement>().AirBrakeApplied = false;
 
+        if (leftGround)
+        {
+            leftGround = false;
+            particles.Play();
+        }
+
         if (lastJumpTap != -Mathf.Infinity)
         {
             if (Time.time <= lastJumpTap + jumpBuffer) JumpAction();
@@ -116,8 +136,5 @@ public class Jump : MonoBehaviour
         }
     }
 
-    public void StopSpeed()
-    {
-        VerticalSpeed = 0;
-    }
+    public void StopSpeed() => VerticalSpeed = 0;
 }
