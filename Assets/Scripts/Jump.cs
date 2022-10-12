@@ -5,6 +5,7 @@ using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows;
+using static UnityEngine.GraphicsBuffer;
 
 public class Jump : MonoBehaviour
 {
@@ -13,25 +14,28 @@ public class Jump : MonoBehaviour
     [SerializeField, Min(0)] private float maxDownSpeed = 50f;
 
     [Header("Jump parameters")]
-    [SerializeField, Range(0, 10)] private int maxJumps = 2;
-    [SerializeField, Range(0, 50)] private float jumpImpulse = 10f;
+    [SerializeField, Min(0)] private int maxJumps = 2;
+    [SerializeField, Min(0)] private float jumpImpulse = 10f;
     [SerializeField] private GameObject burstParticles;
+
+    [Header("Wall Jump")]
+    [SerializeField, Min(0)] private float wallJumpImpulse = 8f;
+    [SerializeField, Range(0, 90)] private float wallJumpAngle = 45f;
+    [SerializeField, Min(0)] private float wallJumpTime = 0.25f;
 
     [Header("Falling")]
     [SerializeField] private float gravity = 10f;
+    [SerializeField, Min(0)] private float wallSlideSpeed = 5f;
     [SerializeField, Range(1, 10)] private float fallMultiplier = 1.5f;
     [Tooltip("Percentage of vertical speed removed if jump button is released before end of jump.")]
     [SerializeField, Range(0, 1)] private float jumpCutoff = 0.5f;
-
-    [Header("Wall jump")]
-    [SerializeField, Min(0)] private float wallSlideSpeed = 5f;
 
     [Header("Buffers")]
     [SerializeField, Min(0)] private float jumpBuffer = 0.1f;
     [SerializeField, Min(0)] private float coyoteTime = 0.1f;
 
     public bool OnGround => Time.time <= lastOnGroundDate + coyoteTime;
-    public bool OnWall { get; set; } = false;
+    public Direction OnWall { get; set; } = Direction.None;
     public float VerticalSpeed { get; private set; } = 0;
 
     private bool leftGround = false;
@@ -39,20 +43,36 @@ public class Jump : MonoBehaviour
     private float lastJumpTap = -Mathf.Infinity;
 
     private int jumpsLeft;
+    private float wallJumpRadian;
     private bool isJumping = false;
     private bool cutoffApplied = false;
 
     private Manette inputActions;
     private ParticleSystem particles;
+    private HorizontalMovement movement;
+
+    private void OnDrawGizmos()
+    {
+        wallJumpRadian = wallJumpAngle * Mathf.PI / 180f;
+
+        Vector3 wallJumpTarget = transform.position;
+        wallJumpTarget.x += wallJumpImpulse * Mathf.Cos(wallJumpRadian) / 10;
+        wallJumpTarget.y += wallJumpImpulse * Mathf.Sin(wallJumpRadian) / 10;
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(transform.position, wallJumpTarget);
+    }
 
     void Awake()
     {
+        movement = GetComponent<HorizontalMovement>();
         particles = GetComponent<ParticleSystem>();
 
         inputActions = new Manette();
         inputActions.Player.Jump.Enable();
 
         jumpsLeft = maxJumps;
+        wallJumpRadian = wallJumpAngle *Mathf.PI / 180f;
     }
 
     private void OnEnable()
@@ -71,9 +91,9 @@ public class Jump : MonoBehaviour
         if (!OnGround && !leftGround) LeaveGround();
 
         VerticalSpeed -= (VerticalSpeed < 0 ? fallMultiplier : 1) * gravity * Time.deltaTime;
-        
-        if (OnWall) VerticalSpeed = Math.Clamp(VerticalSpeed, -wallSlideSpeed, maxUpSpeed);
-        else VerticalSpeed = Math.Clamp(VerticalSpeed, -maxDownSpeed, maxUpSpeed);
+
+        VerticalSpeed = Math.Clamp(VerticalSpeed, -maxDownSpeed, maxUpSpeed);
+        if (OnWall != Direction.None && VerticalSpeed < -maxDownSpeed) VerticalSpeed = -wallSlideSpeed;
 
         transform.position += VerticalSpeed * Time.deltaTime * Vector3.up;
     }
@@ -90,7 +110,22 @@ public class Jump : MonoBehaviour
         }
     }
 
-    private void OnJump(InputAction.CallbackContext obj) => JumpAction();
+    private void OnJump(InputAction.CallbackContext obj)
+    {
+        if (OnWall != Direction.None)
+        {
+            isJumping = true;
+            VerticalSpeed = wallJumpImpulse * Mathf.Sin(wallJumpRadian);
+            movement.Speed = wallJumpImpulse * Mathf.Cos(wallJumpRadian);
+
+            if (OnWall == Direction.Left) movement.Speed *= -1;
+            movement.WallJumpEnd = Time.time + wallJumpTime;
+
+            Debug.Log("Wall jump");
+        }
+        else JumpAction();
+
+    }
 
     private void JumpAction()
     {
@@ -121,7 +156,7 @@ public class Jump : MonoBehaviour
         cutoffApplied = false;
         jumpsLeft = maxJumps;
 
-        GetComponent<HorizontalMovement>().AirBrakeApplied = false;
+        movement.AirBrakeApplied = false;
 
         if (leftGround)
         {

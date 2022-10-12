@@ -165,7 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 80
   desceleration: 80
-  maxSpeed: 13
+  maxSpeed: 10
   turnSpeed: 5
   airControl: 0.25
   airBrake: 0.6
@@ -192,10 +192,13 @@ MonoBehaviour:
   maxJumps: 2
   jumpImpulse: 15
   burstParticles: {fileID: 6461465920845842017, guid: f08ac6955c5daea43a5793d6e3069e47, type: 3}
+  wallJumpImpulse: 15
+  wallJumpAngle: 45
+  wallJumpTime: 0.25
   gravity: 30
+  wallSlideSpeed: 4
   fallMultiplier: 1.5
   jumpCutoff: 0.5
-  wallSlideSpeed: 5
   jumpBuffer: 0.1
   coyoteTime: 0.1
 --- !u!114 &1697647013

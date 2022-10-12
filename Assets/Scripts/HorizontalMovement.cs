@@ -5,10 +5,10 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public enum Direction { Left, Right, None };
+
 public class HorizontalMovement : MonoBehaviour
 {
-    enum Direction { Left, Right };
-
     [Header("Speed and acceleration")]
     [SerializeField, Min(0)] private float acceleration = 40f;
     [SerializeField, Min(0)] private float desceleration = 40f;
@@ -32,16 +32,16 @@ public class HorizontalMovement : MonoBehaviour
 
 
     private float input = 0;
-    public float Speed { get; private set; } = 0;
+    public float Speed { get; set; } = 0;
     public bool AirBrakeApplied { get; set; } = false;
 
-    private Direction playerDirection = Direction.Right;
     private Direction dashDirection = Direction.Right;
-
     float lastDashDate = -Mathf.Infinity;
 
     public enum DashState { Idle, Dashing, Cooldown }
     public DashState IsDashing { get; private set; } = DashState.Idle;
+
+    public float WallJumpEnd { get; set; } = -Mathf.Infinity;
 
     private Manette inputActions;
     private Jump jumpController;
@@ -73,14 +73,12 @@ public class HorizontalMovement : MonoBehaviour
         Movement();
         UpdateDashState();
 
-        playerDirection = Speed >= 0 ? Direction.Right : Direction.Left;
         transform.position += Speed * Time.deltaTime * Vector3.right;
     }
 
     private void Movement()
     {
         bool onGround = jumpController.OnGround;
-
         if (!onGround) input *= airControl;
 
         if (IsDashing == DashState.Dashing)
@@ -90,11 +88,16 @@ public class HorizontalMovement : MonoBehaviour
             return;
         }
 
+        if (WallJumpEnd != -Mathf.Infinity)
+        {
+            if (WallJumpEnd < Time.time) WallJumpEnd = -Mathf.Infinity;
+            return;
+        }
+
         if (input != 0)
         {
             float turnMultiplier = 1;
-            if (playerDirection == Direction.Right && input < 0 ||
-                playerDirection == Direction.Left && input > 0)
+            if (Speed > 0 && input < 0 || Speed < 0 && input > 0)
             {
                 if (onGround) turnMultiplier = turnSpeed;
                 else turnMultiplier = airTurnSpeed;
@@ -107,12 +110,12 @@ public class HorizontalMovement : MonoBehaviour
         {
             float brakeMultiplier = onGround ? 1 : airBrake;
 
-            if (playerDirection == Direction.Right)
+            if (Speed > 0)
             {
                 Speed -= brakeMultiplier * desceleration * Time.deltaTime;
                 Speed = Mathf.Max(0, Speed);
             }
-            else
+            else if (Speed < 0)
             {
                 Speed += brakeMultiplier * desceleration * Time.deltaTime;
                 Speed = Mathf.Min(0, Speed);
