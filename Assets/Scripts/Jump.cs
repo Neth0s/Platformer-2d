@@ -73,7 +73,7 @@ public class Jump : MonoBehaviour
     {
         movement = GetComponent<HorizontalMovement>();
         particles = GetComponent<ParticleSystem>();
-        animator = GetComponent<SpriteAnimator>();
+        animator = GetComponentInChildren<SpriteAnimator>();
 
         inputActions = new Manette();
         inputActions.Player.Jump.Enable();
@@ -143,7 +143,7 @@ public class Jump : MonoBehaviour
             VerticalSpeed = jumpImpulse;
 
             Destroy(Instantiate(burstParticles, transform), 1);
-            //animator.StretchLoop(1/jumpSquash, jumpSquash);
+            animator.StretchLoop(1/jumpSquash, jumpSquash);
         }
         else lastJumpTap = Time.time;
     }
@@ -152,6 +152,7 @@ public class Jump : MonoBehaviour
     {
         leftGround = true;
         particles.Stop();
+        animator.ResetRotation();
     }
 
     public void TouchGround(float bounciness)
@@ -168,7 +169,7 @@ public class Jump : MonoBehaviour
         movement.AirBrakeApplied = false;
 
         leftGround = false;
-        //animator.StretchLoop(landSquash, 1 / landSquash);
+        animator.StretchLoop(landSquash, 1 / landSquash);
         particles.Play();
 
         if (lastJumpTap != -Mathf.Infinity)

@@ -27,6 +27,8 @@ public class HorizontalMovement : MonoBehaviour
     [SerializeField] private float dashTime = 0.1f;
     [SerializeField] private float dashReloadTime = 1f;
 
+    [Header("Animation")]
+    [SerializeField, Range(-30, 30)] private float runAngle = -15f;
     [SerializeField] private Color dashingColor;
     [SerializeField] private Color dashEmptyColor;
 
@@ -43,9 +45,11 @@ public class HorizontalMovement : MonoBehaviour
 
     public float WallJumpEnd { get; set; } = -Mathf.Infinity;
 
-    private Manette inputActions;
     private Jump jumpController;
+    private SpriteRenderer sprite;
+    private SpriteAnimator animator;
 
+    private Manette inputActions;
 
     void Awake()
     {
@@ -54,6 +58,8 @@ public class HorizontalMovement : MonoBehaviour
         inputActions.Player.Dash.Enable();
 
         jumpController = GetComponent<Jump>();
+        sprite = GetComponentInChildren<SpriteRenderer>();
+        animator = GetComponentInChildren<SpriteAnimator>();
     }
 
     private void OnEnable()
@@ -79,7 +85,9 @@ public class HorizontalMovement : MonoBehaviour
     private void Movement()
     {
         bool onGround = jumpController.OnGround;
+
         if (!onGround) input *= airControl;
+        else animator.Rotate(runAngle * Speed / maxSpeed);
 
         if (IsDashing == DashState.Dashing)
         {
@@ -131,7 +139,7 @@ public class HorizontalMovement : MonoBehaviour
             lastDashDate = Time.time;
             dashDirection = input >= 0 ? Direction.Right : Direction.Left;
 
-            GetComponent<SpriteRenderer>().color = dashingColor;
+            sprite.color = dashingColor;
         }
     }
 
@@ -142,13 +150,13 @@ public class HorizontalMovement : MonoBehaviour
         if (IsDashing == DashState.Dashing && Time.time >= lastDashDate + dashTime)
         {
             IsDashing = DashState.Cooldown;
-            GetComponent<SpriteRenderer>().color = dashEmptyColor;
+            sprite.color = dashEmptyColor;
         }
 
         if (IsDashing == DashState.Cooldown && Time.time >= lastDashDate + dashReloadTime)
         {
             IsDashing = DashState.Idle;
-            GetComponent<SpriteRenderer>().color = Color.white;
+            sprite.color = Color.white;
         }
     }
 

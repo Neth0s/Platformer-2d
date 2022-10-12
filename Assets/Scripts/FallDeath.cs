@@ -18,7 +18,9 @@ public class FallDeath : MonoBehaviour
         if (transform.position.y < yThreshold && !dead)
         {
             dead = true;
-            GetComponent<SpriteRenderer>().enabled = false;
+            GetComponentInChildren<SpriteRenderer>().enabled = false;
+            GetComponent<HorizontalMovement>().enabled = false;
+            GetComponent<Jump>().enabled = false;
             StartCoroutine(RestartScene());
         }
     }

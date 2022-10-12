@@ -6,6 +6,27 @@ public class SpriteAnimator : MonoBehaviour
 {
     [SerializeField, Min(0)] private float speed = 1.5f;
 
+    public void Rotate(float angle)
+    {
+        transform.localRotation = Quaternion.Euler(0, 0, angle);
+    }
+
+    private IEnumerator ResetRotate()
+    {
+        float t = 0;
+        while (t < 1 / speed)
+        {
+            t += Time.deltaTime;
+            transform.localRotation = Quaternion.Slerp(transform.localRotation, Quaternion.identity, Time.deltaTime);
+
+            yield return new WaitForEndOfFrame();
+        }
+        transform.localRotation = Quaternion.identity;
+    }
+
+    public Coroutine ResetRotation() => StartCoroutine(ResetRotate());
+
+
     private IEnumerator Animate(float xVal, float yVal)
     {
         Vector3 endScale = new (xVal, yVal, transform.localScale.z);

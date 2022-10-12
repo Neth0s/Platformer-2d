@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CollisionDetection : MonoBehaviour
 {
-    BoxCollider2D coll;
+    new BoxCollider2D collider;
     HorizontalMovement horizontalMovement;
     Jump jump;
 
@@ -12,7 +12,7 @@ public class CollisionDetection : MonoBehaviour
 
     private void Awake()
     {
-        coll = GetComponent<BoxCollider2D>();
+        collider = GetComponent<BoxCollider2D>();
         horizontalMovement = GetComponent<HorizontalMovement>();
         jump = GetComponent<Jump>();
     }
@@ -24,51 +24,51 @@ public class CollisionDetection : MonoBehaviour
             + (Vector3)(horizontalMovement.Speed * Time.fixedDeltaTime * Vector2.right) 
             + (Vector3)(jump.VerticalSpeed * Time.fixedDeltaTime * Vector2.up);
 
-        var collisions = Physics2D.OverlapBoxAll(nextPosition, coll.size, 0);
+        var collisions = Physics2D.OverlapBoxAll(nextPosition, collider.size, 0);
 
         // Evaluate the direction of each collision.
-        var leftCollisions = new List<Collider2D>();
         var rightCollisions = new List<Collider2D>();
-        var bottomCollisions = new List<Collider2D>();
-        var upCollisions = new List<Collider2D>();
+        var leftCollisions = new List<Collider2D>();
+        var topCollisions = new List<Collider2D>();
+        var downCollisions = new List<Collider2D>();
 
         foreach (var collision in collisions)
         {
             if (collision.gameObject != gameObject)
             {
-                if (coll.bounds.max.x < collision.bounds.min.x) leftCollisions.Add(collision);
-                else if (coll.bounds.min.x > collision.bounds.max.x) rightCollisions.Add(collision);
-                else if (coll.bounds.max.y < collision.bounds.min.y) bottomCollisions.Add(collision);
-                else if (coll.bounds.min.y > collision.bounds.max.y) upCollisions.Add(collision);
+                if (collider.bounds.max.x < collision.bounds.min.x) rightCollisions.Add(collision);
+                else if (collider.bounds.min.x > collision.bounds.max.x) leftCollisions.Add(collision);
+                else if (collider.bounds.max.y < collision.bounds.min.y) topCollisions.Add(collision);
+                else if (collider.bounds.min.y > collision.bounds.max.y) downCollisions.Add(collision);
             }
         }
 
         // Resolve collisions based on their direction.
         // This could be improved by choosing the best collision candidate within each collision list.
         // However, we decided to prioritize other features as it worked already good enough for this project.
-        if (leftCollisions.Count > 0)
+        if (rightCollisions.Count > 0)
         {
-            transform.position = new Vector3(leftCollisions[0].bounds.min.x - coll.size.x * transform.localScale.x / 2 - epsilon, transform.position.y, transform.position.z);
+            transform.position = new Vector3(rightCollisions[0].bounds.min.x - collider.size.x * transform.localScale.x / 2 - epsilon, transform.position.y, transform.position.z);
             horizontalMovement.StopSpeed();
             jump.OnWall = Direction.Right;
         }
-        if (rightCollisions.Count > 0)
+        if (leftCollisions.Count > 0)
         {
-            transform.position = new Vector3(rightCollisions[0].bounds.max.x + coll.size.x * transform.localScale.x / 2 + epsilon, transform.position.y, transform.position.z);
+            transform.position = new Vector3(leftCollisions[0].bounds.max.x + collider.size.x * transform.localScale.x / 2 + epsilon, transform.position.y, transform.position.z);
             horizontalMovement.StopSpeed();
             jump.OnWall = Direction.Left;
         }
-        if (bottomCollisions.Count > 0)
+        if (topCollisions.Count > 0)
         {
-            transform.position = new Vector3(transform.position.x, bottomCollisions[0].bounds.min.y - coll.size.y * transform.localScale.y / 2 - epsilon, transform.position.z);
+            transform.position = new Vector3(transform.position.x, topCollisions[0].bounds.min.y - collider.size.y * transform.localScale.y / 2 - epsilon, transform.position.z);
             jump.StopSpeed();
         }
-        if (upCollisions.Count > 0)
+        if (downCollisions.Count > 0)
         {
-            transform.position = new Vector3(transform.position.x, upCollisions[0].bounds.max.y + coll.size.y * transform.localScale.y / 2 + epsilon, transform.position.z);
-            jump.TouchGround(upCollisions[0].bounciness);
+            transform.position = new Vector3(transform.position.x, downCollisions[0].bounds.max.y + collider.size.y * transform.localScale.y / 2 + epsilon, transform.position.z);
+            jump.TouchGround(downCollisions[0].bounciness);
         }
 
-        if (leftCollisions.Count == 0 && rightCollisions.Count == 0) jump.OnWall = Direction.None;
+        if (rightCollisions.Count == 0 && leftCollisions.Count == 0) jump.OnWall = Direction.None;
     }
 }
