@@ -23,14 +23,15 @@ public class HorizontalMovement : MonoBehaviour
     [SerializeField, Min(0)] private float airTurnSpeed = 5f;
 
     [Header("Dash")]
-    [SerializeField] private float dashSpeed = 20f;
-    [SerializeField] private float dashTime = 0.1f;
-    [SerializeField] private float dashReloadTime = 1f;
+    [SerializeField, Min(0)] private float dashSpeed = 20f;
+    [SerializeField, Min(0)] private float dashTime = 0.1f;
+    [SerializeField, Min(0)] private float dashReloadTime = 1f;
 
     [Header("Animation")]
     [SerializeField, Range(-30, 30)] private float runAngle = -15f;
     [SerializeField] private Color dashingColor;
     [SerializeField] private Color dashEmptyColor;
+    [SerializeField, Min(0)] private float trailTime = 0.25f;
 
 
     private float input = 0;
@@ -48,6 +49,7 @@ public class HorizontalMovement : MonoBehaviour
     private Jump jumpController;
     private SpriteRenderer sprite;
     private SpriteAnimator animator;
+    private TrailRenderer trail;
 
     private Manette inputActions;
 
@@ -60,6 +62,7 @@ public class HorizontalMovement : MonoBehaviour
         jumpController = GetComponent<Jump>();
         sprite = GetComponentInChildren<SpriteRenderer>();
         animator = GetComponentInChildren<SpriteAnimator>();
+        trail = GetComponentInChildren<TrailRenderer>();
     }
 
     private void OnEnable()
@@ -140,6 +143,7 @@ public class HorizontalMovement : MonoBehaviour
             dashDirection = input >= 0 ? Direction.Right : Direction.Left;
 
             sprite.color = dashingColor;
+            trail.enabled = true;
         }
     }
 
@@ -152,6 +156,8 @@ public class HorizontalMovement : MonoBehaviour
             IsDashing = DashState.Cooldown;
             sprite.color = dashEmptyColor;
         }
+
+        if (Time.time >= lastDashDate + dashTime + trailTime) trail.enabled = false;
 
         if (IsDashing == DashState.Cooldown && Time.time >= lastDashDate + dashReloadTime)
         {

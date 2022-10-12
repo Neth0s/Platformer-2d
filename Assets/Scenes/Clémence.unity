@@ -1112,6 +1112,22 @@ PrefabInstance:
       propertyPath: speed
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6768542817708736704, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
+      propertyPath: m_Parameters.widthMultiplier
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6768542817708736704, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6768542817708736704, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6768542817708736704, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6937248890623432491, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
       propertyPath: m_RootOrder
       value: 1
