@@ -17,12 +17,17 @@ public class FallDeath : MonoBehaviour
     {
         if (transform.position.y < yThreshold && !dead)
         {
-            dead = true;
-            GetComponentInChildren<SpriteRenderer>().enabled = false;
-            GetComponent<HorizontalMovement>().enabled = false;
-            GetComponent<Jump>().enabled = false;
+            DisablePlayer();
             StartCoroutine(RestartScene());
         }
+    }
+
+    public void DisablePlayer()
+    {
+        dead = true;
+        GetComponentInChildren<SpriteRenderer>().enabled = false;
+        GetComponent<HorizontalMovement>().enabled = false;
+        GetComponent<Jump>().enabled = false;
     }
 
     private IEnumerator RestartScene()

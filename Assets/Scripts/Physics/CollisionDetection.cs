@@ -24,7 +24,7 @@ public class CollisionDetection : MonoBehaviour
             + (Vector3)(horizontalMovement.Speed * Time.fixedDeltaTime * Vector2.right) 
             + (Vector3)(jump.VerticalSpeed * Time.fixedDeltaTime * Vector2.up);
 
-        var collisions = Physics2D.OverlapBoxAll(nextPosition, collider.size, 0);
+        var collisions = Physics2D.OverlapBoxAll(nextPosition, collider.size, 0, LayerMask.GetMask("Default"));
 
         // Evaluate the direction of each collision.
         var rightCollisions = new List<Collider2D>();
