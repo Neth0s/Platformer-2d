@@ -77,7 +77,7 @@ public class HorizontalMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        input = inputActions.Player.Move.ReadValue<float>();
+        input = inputActions.Player.Move.ReadValue<Vector2>().x;
 
         Movement();
         UpdateDashState();

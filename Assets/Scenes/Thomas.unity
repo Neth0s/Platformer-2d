@@ -289,11 +289,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5797396857785656925, guid: 653190c3c964f234884cabd3b9eeb310, type: 3}
   m_PrefabInstance: {fileID: 4865932093747398026}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1087450578 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6318172982327334914, guid: 2148dbb03f9a6114cb48f9e13f262932, type: 3}
-  m_PrefabInstance: {fileID: 6318172983412553168}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1175047927
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1004,90 +999,6 @@ PrefabInstance:
     - target: {fileID: 1697647013, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
       propertyPath: yThreshold
       value: -12
-      objectReference: {fileID: 0}
-    - target: {fileID: 1697647013, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: onFallDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1087450578}
-    - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: airBrake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: dashTime
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: maxSpeed
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: dashSpeed
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: airControl
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: dashReloadTime
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: dashingColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: dashingColor.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: dashingColor.r
-      value: 0.9951428
-      objectReference: {fileID: 0}
-    - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: dashEmptyColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: dashEmptyColor.g
-      value: 0.6132076
-      objectReference: {fileID: 0}
-    - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: dashEmptyColor.r
-      value: 0.6132076
-      objectReference: {fileID: 0}
-    - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: timeToReachMaxSpeed
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 6224878515104927682, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: gravity
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 6224878515104927682, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: coyoteTime
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6224878515104927682, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: jumpCutoff
-      value: 85
-      objectReference: {fileID: 0}
-    - target: {fileID: 6224878515104927682, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: jumpImpulse
-      value: 21
-      objectReference: {fileID: 0}
-    - target: {fileID: 6224878515104927682, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: fallMultiplier
-      value: 1.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 6224878515104927682, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: maxVerticalUpSpeed
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 6224878515104927682, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: maxVerticalDownSpeed
-      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 6937248890623432491, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
       propertyPath: m_RootOrder
