@@ -149,11 +149,13 @@ public class Jump : MonoBehaviour
     {
         if (jumpsLeft > 0)
         {
-            LeaveGround();
-
             jumpsLeft--;
             isJumping = true;
-            VerticalSpeed = jumpImpulse;
+
+            if (leftGround) VerticalSpeed = jumpImpulse;
+            else VerticalSpeed += jumpImpulse;
+
+            LeaveGround();
 
             Destroy(Instantiate(burstParticles, transform), 1);
             animator.StretchLoop(1/jumpSquash, jumpSquash);
@@ -175,7 +177,7 @@ public class Jump : MonoBehaviour
 
         if (!leftGround) return;
 
-        isJumping = false;
+        isJumping = bounciness != 0;
         isFastfall = false;
         cutoffApplied = false;
         jumpsLeft = maxJumps;

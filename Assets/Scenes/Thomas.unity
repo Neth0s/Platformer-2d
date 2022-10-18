@@ -998,7 +998,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1697647013, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
       propertyPath: yThreshold
-      value: -12
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 6937248890623432491, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
       propertyPath: m_RootOrder
