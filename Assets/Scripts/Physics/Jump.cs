@@ -61,6 +61,8 @@ public class Jump : MonoBehaviour
 
     private Manette inputActions;
 
+    [SerializeField] Settings settings;
+
     private void OnDrawGizmos()
     {
         wallJumpRadian = wallJumpAngle * Mathf.PI / 180f;
@@ -85,6 +87,9 @@ public class Jump : MonoBehaviour
 
         jumpsLeft = maxJumps;
         wallJumpRadian = wallJumpAngle *Mathf.PI / 180f;
+
+        if (!settings.MovementParticles)
+            particles.Stop();
     }
 
     private void OnEnable()
@@ -157,7 +162,9 @@ public class Jump : MonoBehaviour
 
             LeaveGround();
 
-            Destroy(Instantiate(burstParticles, transform), 1);
+            if(settings.MovementParticles)
+                Destroy(Instantiate(burstParticles, transform), 1);
+
             animator.StretchLoop(1/jumpSquash, jumpSquash);
         }
         else lastJumpTap = Time.time;
@@ -166,7 +173,8 @@ public class Jump : MonoBehaviour
     private void LeaveGround()
     {
         leftGround = true;
-        particles.Stop();
+        if(settings.MovementParticles)
+            particles.Stop();
         animator.ResetRotation();
     }
 
@@ -186,7 +194,9 @@ public class Jump : MonoBehaviour
 
         leftGround = false;
         animator.StretchLoop(landSquash, 1 / landSquash);
-        particles.Play();
+
+        if(settings.MovementParticles)
+            particles.Play();
 
         if (lastJumpTap != -Mathf.Infinity)
         {

@@ -46,6 +46,8 @@ public class HorizontalMovement : MonoBehaviour
 
     public float WallJumpEnd { get; set; } = -Mathf.Infinity;
 
+    [SerializeField] Settings settings;
+
     private Jump jumpController;
     private SpriteRenderer sprite;
     private SpriteAnimator animator;
@@ -142,8 +144,11 @@ public class HorizontalMovement : MonoBehaviour
             lastDashDate = Time.time;
             dashDirection = input >= 0 ? Direction.Right : Direction.Left;
 
-            sprite.color = dashingColor;
-            trail.enabled = true;
+            if (settings.DashEffects)
+            {
+                sprite.color = dashingColor;
+                trail.enabled = true;
+            }
         }
     }
 
@@ -154,7 +159,9 @@ public class HorizontalMovement : MonoBehaviour
         if (IsDashing == DashState.Dashing && Time.time >= lastDashDate + dashTime)
         {
             IsDashing = DashState.Cooldown;
-            sprite.color = dashEmptyColor;
+
+            if (settings.DashEffects)
+                sprite.color = dashEmptyColor;
         }
 
         if (Time.time >= lastDashDate + dashTime + trailTime) trail.enabled = false;
@@ -162,7 +169,9 @@ public class HorizontalMovement : MonoBehaviour
         if (IsDashing == DashState.Cooldown && Time.time >= lastDashDate + dashReloadTime)
         {
             IsDashing = DashState.Idle;
-            sprite.color = Color.white;
+
+            if (settings.DashEffects)
+                sprite.color = Color.white;
         }
     }
 
