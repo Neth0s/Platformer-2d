@@ -134,7 +134,7 @@ public partial class @Manette : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""85b34225-6053-4ac6-9681-7e563c170597"",
-                    ""path"": ""<Keyboard>/leftShift"",
+                    ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
