@@ -76,7 +76,7 @@ public class HorizontalMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        input = manette.Player.Move.ReadValue<Vector2>().x;
+        input = manette.Player.Move.ReadValue<float>();
 
         Movement();
         UpdateDashState();

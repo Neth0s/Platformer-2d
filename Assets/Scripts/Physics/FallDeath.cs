@@ -6,13 +6,18 @@ using UnityEngine.SceneManagement;
 
 public class FallDeath : MonoBehaviour
 {
-    [SerializeField] private float yThreshold = -8f;
     [SerializeField] private float restartDelay = 1f;
 
     [SerializeField] private GameObject deathParticles;
     [SerializeField] private Settings settings;
 
     private bool dead = false;
+    private float yThreshold;
+
+    private void Start()
+    {
+        yThreshold = 1 - GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().orthographicSize;
+    }
 
     private void Update()
     {

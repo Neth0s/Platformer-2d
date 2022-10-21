@@ -145,13 +145,13 @@ TrailRenderer:
   m_Time: 0.3
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.6
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.3589744
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -378,7 +378,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a62235476d6f0a345bd83790d9a2c161, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  yThreshold: -5
   restartDelay: 1
   deathParticles: {fileID: 5107554950338607547, guid: 6d90804cd1cbd054ebd096c0408ca7af, type: 3}
   settings: {fileID: 11400000, guid: d8d08696fac5d6b4887389fea6d2ca8d, type: 2}
