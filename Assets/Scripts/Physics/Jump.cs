@@ -40,6 +40,7 @@ public class Jump : MonoBehaviour
     [SerializeField, Range(1, 2)] private float landSquash = 1.5f;
     [SerializeField, Range(0, 1)] private float fastfallSquash = 0.25f;
     [SerializeField, Range(1, 2)] private float fastfallStretch = 1.5f;
+    [SerializeField] private Settings settings;
 
     public bool OnGround => Time.time <= lastOnGroundDate + coyoteTime;
     public Direction OnWall { get; set; } = Direction.None;
@@ -59,9 +60,7 @@ public class Jump : MonoBehaviour
     private ParticleSystem particles;
     private SpriteAnimator animator;
 
-    private Manette inputActions;
-
-    [SerializeField] Settings settings;
+    private Manette manette;
 
     private void OnDrawGizmos()
     {
@@ -81,25 +80,24 @@ public class Jump : MonoBehaviour
         particles = GetComponent<ParticleSystem>();
         animator = GetComponentInChildren<SpriteAnimator>();
 
-        inputActions = new Manette();
-        inputActions.Player.Jump.Enable();
-        inputActions.Player.Fastfall.Enable();
+        manette = new Manette();
+        manette.Player.Jump.Enable();
+        manette.Player.Fastfall.Enable();
 
         jumpsLeft = maxJumps;
         wallJumpRadian = wallJumpAngle *Mathf.PI / 180f;
 
-        if (!settings.MovementParticles)
-            particles.Stop();
+        if (!settings.MovementParticles) particles.Stop();
     }
 
     private void OnEnable()
     {
-        inputActions.Player.Jump.performed += OnJump;
+        manette.Player.Jump.performed += OnJump;
     }
 
     private void OnDisable()
     {
-        inputActions.Player.Jump.performed -= OnJump;
+        manette.Player.Jump.performed -= OnJump;
     }
 
     void FixedUpdate()
@@ -120,15 +118,16 @@ public class Jump : MonoBehaviour
         if (isJumping && !cutoffApplied && VerticalSpeed > 0)
         {
             //Didn't release jump
-            if (inputActions.Player.Jump.ReadValue<float>() != 0) return;
+            if (manette.Player.Jump.ReadValue<float>() != 0) return;
 
             VerticalSpeed *= 1 - jumpCutoff;
             cutoffApplied = true;
         }
 
         if (isJumping && !isFastfall && OnWall == Direction.None &&
-            inputActions.Player.Fastfall.ReadValue<float>() != 0)
+            manette.Player.Fastfall.ReadValue<float>() != 0)
         {
+            Debug.Log(OnGround);
             VerticalSpeed = -fastFallSpeed;
             isFastfall = true;
             animator.FastStretch(fastfallSquash, fastfallStretch);
@@ -173,8 +172,7 @@ public class Jump : MonoBehaviour
     private void LeaveGround()
     {
         leftGround = true;
-        if(settings.MovementParticles)
-            particles.Stop();
+        if(settings.MovementParticles) particles.Stop();
         animator.ResetRotation();
     }
 
@@ -186,17 +184,17 @@ public class Jump : MonoBehaviour
         if (!leftGround) return;
 
         isJumping = bounciness != 0;
+        leftGround = false;
         isFastfall = false;
         cutoffApplied = false;
-        jumpsLeft = maxJumps;
 
+        jumpsLeft = maxJumps;
         movement.AirBrakeApplied = false;
 
-        leftGround = false;
+        Debug.Log(isFastfall);
         animator.StretchLoop(landSquash, 1 / landSquash);
 
-        if(settings.MovementParticles)
-            particles.Play();
+        if(settings.MovementParticles) particles.Play();
 
         if (lastJumpTap != -Mathf.Infinity)
         {
@@ -206,4 +204,10 @@ public class Jump : MonoBehaviour
     }
 
     public void StopSpeed() => VerticalSpeed = 0;
+
+    public void EnableCommands(bool active)
+    {
+        if (active) manette.Player.Enable();
+        else manette.Player.Disable();
+    }
 }

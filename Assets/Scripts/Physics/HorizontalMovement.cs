@@ -32,7 +32,7 @@ public class HorizontalMovement : MonoBehaviour
     [SerializeField] private Color dashingColor;
     [SerializeField] private Color dashEmptyColor;
     [SerializeField, Min(0)] private float trailTime = 0.25f;
-
+    [SerializeField] private Settings settings;
 
     private float input = 0;
     public float Speed { get; set; } = 0;
@@ -46,20 +46,17 @@ public class HorizontalMovement : MonoBehaviour
 
     public float WallJumpEnd { get; set; } = -Mathf.Infinity;
 
-    [SerializeField] Settings settings;
-
+    private Manette manette;
     private Jump jumpController;
     private SpriteRenderer sprite;
     private SpriteAnimator animator;
     private TrailRenderer trail;
 
-    private Manette inputActions;
-
     void Awake()
     {
-        inputActions = new Manette();
-        inputActions.Player.Move.Enable();
-        inputActions.Player.Dash.Enable();
+        manette = new Manette();
+        manette.Player.Move.Enable();
+        manette.Player.Dash.Enable();
 
         jumpController = GetComponent<Jump>();
         sprite = GetComponentInChildren<SpriteRenderer>();
@@ -69,17 +66,17 @@ public class HorizontalMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        inputActions.Player.Dash.performed += OnDash;
+        manette.Player.Dash.performed += OnDash;
     }
 
     private void OnDisable()
     {
-        inputActions.Player.Dash.performed -= OnDash;
+        manette.Player.Dash.performed -= OnDash;
     }
 
     void FixedUpdate()
     {
-        input = inputActions.Player.Move.ReadValue<Vector2>().x;
+        input = manette.Player.Move.ReadValue<Vector2>().x;
 
         Movement();
         UpdateDashState();
@@ -138,7 +135,7 @@ public class HorizontalMovement : MonoBehaviour
 
     private void OnDash(InputAction.CallbackContext obj)
     {
-        if (inputActions.Player.Dash.ReadValue<float>() != 0 && Time.time >= lastDashDate + dashReloadTime)
+        if (manette.Player.Dash.ReadValue<float>() != 0 && Time.time >= lastDashDate + dashReloadTime)
         {
             IsDashing = DashState.Dashing;
             lastDashDate = Time.time;
@@ -160,8 +157,7 @@ public class HorizontalMovement : MonoBehaviour
         {
             IsDashing = DashState.Cooldown;
 
-            if (settings.DashEffects)
-                sprite.color = dashEmptyColor;
+            if (settings.DashEffects) sprite.color = dashEmptyColor;
         }
 
         if (Time.time >= lastDashDate + dashTime + trailTime) trail.enabled = false;
@@ -170,13 +166,18 @@ public class HorizontalMovement : MonoBehaviour
         {
             IsDashing = DashState.Idle;
 
-            if (settings.DashEffects)
-                sprite.color = Color.white;
+            if (settings.DashEffects) sprite.color = Color.white;
         }
     }
 
     public void StopSpeed()
     {
         Speed = 0;
+    }
+
+    public void EnableCommands(bool active)
+    {
+        if (active) manette.Player.Enable();
+        else manette.Player.Disable();
     }
 }

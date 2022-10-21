@@ -10,8 +10,7 @@ public class FallDeath : MonoBehaviour
     [SerializeField] private float restartDelay = 1f;
 
     [SerializeField] private GameObject deathParticles;
-
-    [SerializeField] Settings settings;
+    [SerializeField] private Settings settings;
 
     private bool dead = false;
 
@@ -35,9 +34,7 @@ public class FallDeath : MonoBehaviour
     private IEnumerator RestartScene()
     {
         if(settings.DeathEffects)
-        {
             Instantiate(deathParticles, transform.position, Quaternion.identity);
-        }
 
         yield return new WaitForSeconds(restartDelay);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

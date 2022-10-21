@@ -7,16 +7,25 @@ using UnityEngine.UI;
 
 public class Pause : MonoBehaviour
 {
+    [Header("Menu")]
     [SerializeField] private GameObject pauseMenu;
-    [SerializeField] private Button settingsButton;
     [SerializeField] private GameObject settingsMenu;
+    [SerializeField] private Button settingsButton;
 
-    Manette manette;
+    [Header("Player")]
+    [SerializeField] private GameObject player;
+
+    private Manette manette;
+    private HorizontalMovement playerHorizontal;
+    private Jump playerJump;
 
     private void Awake()
     {
         manette = new Manette();
         manette.UI.Pause.Enable();
+
+        playerHorizontal = player.GetComponent<HorizontalMovement>();
+        playerJump = player.GetComponent<Jump>();
     }
 
     private void OnEnable()
@@ -34,6 +43,7 @@ public class Pause : MonoBehaviour
         if (pauseMenu.activeSelf)
         {
             pauseMenu.SetActive(false);
+            EnablePlayerCommands(true);
         }
         else if (settingsMenu.activeSelf)
         {
@@ -45,6 +55,13 @@ public class Pause : MonoBehaviour
         {
             pauseMenu.SetActive(true);
             settingsButton.Select();
+            EnablePlayerCommands(false);
         }
+    }
+
+    private void EnablePlayerCommands(bool active)
+    {
+        playerHorizontal.EnableCommands(active);
+        playerJump.EnableCommands(active);
     }
 }
