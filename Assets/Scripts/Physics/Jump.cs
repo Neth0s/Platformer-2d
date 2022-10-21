@@ -184,12 +184,13 @@ public class Jump : MonoBehaviour
 
         if (!leftGround) return;
 
-        isJumping = bounciness != 0;
+        jumpsLeft = maxJumps;
         leftGround = false;
         cutoffApplied = false;
-
-        jumpsLeft = maxJumps;
         movement.AirBrakeApplied = false;
+
+        if (bounciness != 0) jumpsLeft--;
+        else isJumping = false;
 
         if (isFastfall)
         {
