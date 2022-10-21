@@ -32,7 +32,7 @@ public class HorizontalMovement : MonoBehaviour
     [SerializeField] private Color dashingColor;
     [SerializeField] private Color dashEmptyColor;
     [SerializeField, Min(0)] private float trailTime = 0.25f;
-
+    [SerializeField] private Settings settings;
 
     private float input = 0;
     public float Speed { get; set; } = 0;
@@ -46,7 +46,6 @@ public class HorizontalMovement : MonoBehaviour
 
     public float WallJumpEnd { get; set; } = -Mathf.Infinity;
 
-    [SerializeField] Settings settings;
 
     private Jump jumpController;
     private SpriteRenderer sprite;
@@ -160,8 +159,7 @@ public class HorizontalMovement : MonoBehaviour
         {
             IsDashing = DashState.Cooldown;
 
-            if (settings.DashEffects)
-                sprite.color = dashEmptyColor;
+            if (settings.DashEffects) sprite.color = dashEmptyColor;
         }
 
         if (Time.time >= lastDashDate + dashTime + trailTime) trail.enabled = false;
@@ -170,13 +168,18 @@ public class HorizontalMovement : MonoBehaviour
         {
             IsDashing = DashState.Idle;
 
-            if (settings.DashEffects)
-                sprite.color = Color.white;
+            if (settings.DashEffects) sprite.color = Color.white;
         }
     }
 
     public void StopSpeed()
     {
         Speed = 0;
+    }
+
+    public void EnableCommands(bool active)
+    {
+        if (active) inputActions.Player.Enable();
+        else inputActions.Player.Disable();
     }
 }
