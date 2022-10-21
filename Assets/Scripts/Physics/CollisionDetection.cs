@@ -50,13 +50,13 @@ public class CollisionDetection : MonoBehaviour
         {
             transform.position = new Vector3(rightCollisions[0].bounds.min.x - collider.size.x * transform.localScale.x / 2 - epsilon, transform.position.y, transform.position.z);
             horizontalMovement.StopSpeed();
-            jump.OnWall = Direction.Right;
+            jump.TouchWall(Direction.Right);
         }
         if (leftCollisions.Count > 0)
         {
             transform.position = new Vector3(leftCollisions[0].bounds.max.x + collider.size.x * transform.localScale.x / 2 + epsilon, transform.position.y, transform.position.z);
             horizontalMovement.StopSpeed();
-            jump.OnWall = Direction.Left;
+            jump.TouchWall(Direction.Left);
         }
         if (topCollisions.Count > 0)
         {
@@ -68,7 +68,5 @@ public class CollisionDetection : MonoBehaviour
             transform.position = new Vector3(transform.position.x, downCollisions[0].bounds.max.y + collider.size.y * transform.localScale.y / 2 + epsilon, transform.position.z);
             jump.TouchGround(downCollisions[0].bounciness);
         }
-
-        if (rightCollisions.Count == 0 && leftCollisions.Count == 0) jump.OnWall = Direction.None;
     }
 }

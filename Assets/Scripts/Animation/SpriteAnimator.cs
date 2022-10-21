@@ -15,10 +15,10 @@ public class SpriteAnimator : MonoBehaviour
     private IEnumerator ResetRotate()
     {
         float t = 0;
-        while (t < 1 / speed)
+        while (t < 1)
         {
-            t += Time.deltaTime;
-            transform.localRotation = Quaternion.Slerp(transform.localRotation, Quaternion.identity, Time.deltaTime);
+            t += Time.deltaTime * speed;
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.identity, Time.deltaTime);
 
             yield return new WaitForEndOfFrame();
         }
@@ -30,14 +30,13 @@ public class SpriteAnimator : MonoBehaviour
 
     private IEnumerator Animate(float xVal, float yVal, bool fast)
     {
-        Vector3 endScale = new (xVal, yVal, transform.localScale.z);
+        Vector3 endScale = new(xVal, yVal, transform.localScale.z);
 
         float t = 0;
-        float duration = 1f / (fast ? fastSpeed : speed);
-        while (t < duration)
+        while (t < 1)
         {
-            t += Time.deltaTime;
-            transform.localScale = Vector3.Slerp(transform.localScale, endScale, t);
+            t += Time.deltaTime * (fast ? fastSpeed : speed);
+            transform.localScale = Vector3.Lerp(transform.localScale, endScale, t);
 
             yield return new WaitForEndOfFrame();
         }

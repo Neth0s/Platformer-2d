@@ -43,11 +43,14 @@ public class Jump : MonoBehaviour
     [SerializeField] private Settings settings;
 
     public bool OnGround => Time.time <= lastOnGroundDate + coyoteTime;
-    public Direction OnWall { get; set; } = Direction.None;
+    private bool OnWall => Time.time <= lastOnWallDate + coyoteTime;
     public float VerticalSpeed { get; private set; } = 0;
 
     private bool leftGround = false;
+    private Direction wallSide = Direction.None;
+
     private float lastOnGroundDate = -Mathf.Infinity;
+    private float lastOnWallDate = -Mathf.Infinity;
     private float lastJumpTap = -Mathf.Infinity;
 
     private int jumpsLeft;
@@ -107,7 +110,7 @@ public class Jump : MonoBehaviour
 
         VerticalSpeed -= (VerticalSpeed < 0 ? fallMultiplier : 1) * gravity * Time.deltaTime;
 
-        float maxFallSpeed = OnWall != Direction.None ? -wallSlideSpeed : -maxDownSpeed;
+        float maxFallSpeed = OnWall ? -wallSlideSpeed : -maxDownSpeed;
         VerticalSpeed = Math.Clamp(VerticalSpeed, maxFallSpeed, maxUpSpeed);
 
         transform.position += VerticalSpeed * Time.deltaTime * Vector3.up;
@@ -124,10 +127,8 @@ public class Jump : MonoBehaviour
             cutoffApplied = true;
         }
 
-        if (isJumping && !isFastfall && OnWall == Direction.None &&
-            manette.Player.Fastfall.ReadValue<float>() != 0)
+        if (isJumping && !isFastfall && !OnWall && manette.Player.Fastfall.ReadValue<float>() != 0)
         {
-            Debug.Log("OnGround: " + OnGround);
             VerticalSpeed = -fastFallSpeed;
             isFastfall = true;
             animator.FastStretch(fastfallSquash, fastfallStretch);
@@ -136,13 +137,13 @@ public class Jump : MonoBehaviour
 
     private void OnJump(InputAction.CallbackContext obj)
     {
-        if (OnWall != Direction.None)
+        if (OnWall)
         {
             isJumping = true;
             VerticalSpeed = wallJumpImpulse * Mathf.Sin(wallJumpRadian);
             movement.Speed = wallJumpImpulse * Mathf.Cos(wallJumpRadian);
 
-            if (OnWall == Direction.Right) movement.Speed *= -1;
+            if (wallSide == Direction.Right) movement.Speed *= -1;
             movement.WallJumpEnd = Time.time + wallJumpTime;
         }
         else JumpAction();
@@ -182,24 +183,34 @@ public class Jump : MonoBehaviour
         lastOnGroundDate = Time.time;
 
         if (!leftGround) return;
-        Debug.Log("isFastfall: " + isFastfall);
+
         isJumping = bounciness != 0;
         leftGround = false;
-        isFastfall = false;
         cutoffApplied = false;
 
         jumpsLeft = maxJumps;
         movement.AirBrakeApplied = false;
 
-        animator.StretchLoop(landSquash, 1 / landSquash);
+        if (isFastfall)
+        {
+            isFastfall = false;
+            animator.Flatten();
+        }
+        else animator.StretchLoop(landSquash, 1 / landSquash);
 
-        if(settings.MovementParticles) particles.Play();
+        if (settings.MovementParticles) particles.Play();
 
         if (lastJumpTap != -Mathf.Infinity)
         {
             if (Time.time <= lastJumpTap + jumpBuffer) JumpAction();
             else lastJumpTap = -Mathf.Infinity;
         }
+    }
+
+    public void TouchWall(Direction direction)
+    {
+        wallSide = direction;
+        lastOnWallDate = Time.time;
     }
 
     public void StopSpeed() => VerticalSpeed = 0;
