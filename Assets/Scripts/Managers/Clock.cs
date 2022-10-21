@@ -13,6 +13,7 @@ public class Clock : MonoBehaviour
     void Start()
     {
         text = GetComponent<TextMeshProUGUI>();
+        Time.timeScale = 1;
     }
 
     private void Update()
