@@ -1338,7 +1338,7 @@ GameObject:
   - component: {fileID: 1709539608}
   - component: {fileID: 1709539607}
   m_Layer: 5
-  m_Name: Credits (1)
+  m_Name: Tip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1384,7 +1384,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press Escape or Start to pause at any moment!
+  m_text: 'Tip: press Escape or Start to pause at any moment!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7c56973977137bc4698dd311e6da021e, type: 2}
   m_sharedMaterial: {fileID: 6868992637259229533, guid: 7c56973977137bc4698dd311e6da021e, type: 2}

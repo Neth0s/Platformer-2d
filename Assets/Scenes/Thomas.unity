@@ -267,6 +267,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1207465585}
     m_Modifications:
+    - target: {fileID: 2403663865513946911, guid: b7b11eb06ed09474e91041f4db4050c4, type: 3}
+      propertyPath: ShapeModule.arc.value
+      value: 130
+      objectReference: {fileID: 0}
+    - target: {fileID: 2403663865513946911, guid: b7b11eb06ed09474e91041f4db4050c4, type: 3}
+      propertyPath: ShapeModule.m_Rotation.z
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2403663865513946911, guid: b7b11eb06ed09474e91041f4db4050c4, type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 2403663865513946911, guid: b7b11eb06ed09474e91041f4db4050c4, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].cycleCount
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2403663865513946911, guid: b7b11eb06ed09474e91041f4db4050c4, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955581923002639187, guid: b7b11eb06ed09474e91041f4db4050c4, type: 3}
+      propertyPath: m_Color.g
+      value: 0.8089572
+      objectReference: {fileID: 0}
     - target: {fileID: 6955581924349327664, guid: b7b11eb06ed09474e91041f4db4050c4, type: 3}
       propertyPath: m_Name
       value: Flag
