@@ -8,6 +8,8 @@ public class Flag : MonoBehaviour
 {
     [SerializeField] private float endDelay;
 
+    [SerializeField] private int nextSceneBuildIndex = 0;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -25,6 +27,6 @@ public class Flag : MonoBehaviour
     {
         GetComponent<ParticleSystem>().Play();
         yield return new WaitForSeconds(endDelay);
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(nextSceneBuildIndex);
     }
 }
