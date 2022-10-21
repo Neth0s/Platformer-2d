@@ -127,7 +127,6 @@ public class Jump : MonoBehaviour
         if (isJumping && !isFastfall && OnWall == Direction.None &&
             manette.Player.Fastfall.ReadValue<float>() != 0)
         {
-            Debug.Log("OnGround: " + OnGround);
             VerticalSpeed = -fastFallSpeed;
             isFastfall = true;
             animator.FastStretch(fastfallSquash, fastfallStretch);
@@ -182,18 +181,22 @@ public class Jump : MonoBehaviour
         lastOnGroundDate = Time.time;
 
         if (!leftGround) return;
-        Debug.Log("isFastfall: " + isFastfall);
+
         isJumping = bounciness != 0;
         leftGround = false;
-        isFastfall = false;
         cutoffApplied = false;
 
         jumpsLeft = maxJumps;
         movement.AirBrakeApplied = false;
 
-        animator.StretchLoop(landSquash, 1 / landSquash);
+        if (isFastfall)
+        {
+            isFastfall = false;
+            animator.Flatten();
+        }
+        else animator.StretchLoop(landSquash, 1 / landSquash);
 
-        if(settings.MovementParticles) particles.Play();
+        if (settings.MovementParticles) particles.Play();
 
         if (lastJumpTap != -Mathf.Infinity)
         {
