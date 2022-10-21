@@ -14,5 +14,20 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Thomas.unity
     guid: 1ccc2639a1ea646448a1303b2bf20c89
+  - enabled: 1
+    path: Assets/Scenes/Level 1.unity
+    guid: 0cf1870d8998d6041a6a96f3cac1266c
+  - enabled: 1
+    path: Assets/Scenes/Level 2.unity
+    guid: 4f3d0a6bca70e934892e0bd7005731e9
+  - enabled: 1
+    path: Assets/Scenes/Level 3.unity
+    guid: 4781b1ec755f44f47a55de1530a1bf85
+  - enabled: 1
+    path: Assets/Scenes/Level 4.unity
+    guid: be9417e9601eb044babb30a2bd4b1d84
+  - enabled: 1
+    path: Assets/Scenes/Settings.unity
+    guid: a59488e86e83f3948b628620ef5d2f39
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 50ff018711be97f4a8ee214b1c07961f, type: 2}
