@@ -46,19 +46,17 @@ public class HorizontalMovement : MonoBehaviour
 
     public float WallJumpEnd { get; set; } = -Mathf.Infinity;
 
-
+    private Manette manette;
     private Jump jumpController;
     private SpriteRenderer sprite;
     private SpriteAnimator animator;
     private TrailRenderer trail;
 
-    private Manette inputActions;
-
     void Awake()
     {
-        inputActions = new Manette();
-        inputActions.Player.Move.Enable();
-        inputActions.Player.Dash.Enable();
+        manette = new Manette();
+        manette.Player.Move.Enable();
+        manette.Player.Dash.Enable();
 
         jumpController = GetComponent<Jump>();
         sprite = GetComponentInChildren<SpriteRenderer>();
@@ -68,17 +66,17 @@ public class HorizontalMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        inputActions.Player.Dash.performed += OnDash;
+        manette.Player.Dash.performed += OnDash;
     }
 
     private void OnDisable()
     {
-        inputActions.Player.Dash.performed -= OnDash;
+        manette.Player.Dash.performed -= OnDash;
     }
 
     void FixedUpdate()
     {
-        input = inputActions.Player.Move.ReadValue<Vector2>().x;
+        input = manette.Player.Move.ReadValue<Vector2>().x;
 
         Movement();
         UpdateDashState();
@@ -137,7 +135,7 @@ public class HorizontalMovement : MonoBehaviour
 
     private void OnDash(InputAction.CallbackContext obj)
     {
-        if (inputActions.Player.Dash.ReadValue<float>() != 0 && Time.time >= lastDashDate + dashReloadTime)
+        if (manette.Player.Dash.ReadValue<float>() != 0 && Time.time >= lastDashDate + dashReloadTime)
         {
             IsDashing = DashState.Dashing;
             lastDashDate = Time.time;
@@ -179,7 +177,7 @@ public class HorizontalMovement : MonoBehaviour
 
     public void EnableCommands(bool active)
     {
-        if (active) inputActions.Player.Enable();
-        else inputActions.Player.Disable();
+        if (active) manette.Player.Enable();
+        else manette.Player.Disable();
     }
 }

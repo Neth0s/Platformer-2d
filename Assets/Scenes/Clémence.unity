@@ -715,6 +715,14 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 927366969}
+    - target: {fileID: 4470032816885200928, guid: 2148dbb03f9a6114cb48f9e13f262932, type: 3}
+      propertyPath: m_MoveAction
+      value: 
+      objectReference: {fileID: 4130610888213427598, guid: f5429aa6a40ec7e49924625aad1f9174, type: 3}
+    - target: {fileID: 4470032816885200928, guid: 2148dbb03f9a6114cb48f9e13f262932, type: 3}
+      propertyPath: m_SubmitAction
+      value: 
+      objectReference: {fileID: -1626123365601471949, guid: f5429aa6a40ec7e49924625aad1f9174, type: 3}
     - target: {fileID: 6318172981979175856, guid: 2148dbb03f9a6114cb48f9e13f262932, type: 3}
       propertyPath: m_Name
       value: GUI
