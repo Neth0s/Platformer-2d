@@ -12,9 +12,6 @@ public class Pause : MonoBehaviour
     [SerializeField] private GameObject settingsMenu;
     [SerializeField] private Button settingsButton;
 
-    [Header("Player")]
-    [SerializeField] private GameObject player;
-
     private Manette manette;
     private HorizontalMovement playerHorizontal;
     private Jump playerJump;
@@ -24,6 +21,7 @@ public class Pause : MonoBehaviour
         manette = new Manette();
         manette.UI.Pause.Enable();
 
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
         playerHorizontal = player.GetComponent<HorizontalMovement>();
         playerJump = player.GetComponent<Jump>();
     }
@@ -44,6 +42,7 @@ public class Pause : MonoBehaviour
         {
             pauseMenu.SetActive(false);
             EnablePlayerCommands(true);
+            Time.timeScale = 1;
         }
         else if (settingsMenu.activeSelf)
         {
@@ -56,6 +55,7 @@ public class Pause : MonoBehaviour
             pauseMenu.SetActive(true);
             settingsButton.Select();
             EnablePlayerCommands(false);
+            Time.timeScale = 0;
         }
     }
 

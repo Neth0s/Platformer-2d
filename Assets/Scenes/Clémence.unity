@@ -470,11 +470,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5797396857785656925, guid: 653190c3c964f234884cabd3b9eeb310, type: 3}
   m_PrefabInstance: {fileID: 784975653}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &927366969 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6937248890623432493, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-  m_PrefabInstance: {fileID: 6937248890452383942}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1113961748
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -711,18 +706,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3871354721844756812, guid: 2148dbb03f9a6114cb48f9e13f262932, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 927366969}
-    - target: {fileID: 4470032816885200928, guid: 2148dbb03f9a6114cb48f9e13f262932, type: 3}
-      propertyPath: m_MoveAction
-      value: 
-      objectReference: {fileID: 4130610888213427598, guid: f5429aa6a40ec7e49924625aad1f9174, type: 3}
-    - target: {fileID: 4470032816885200928, guid: 2148dbb03f9a6114cb48f9e13f262932, type: 3}
-      propertyPath: m_SubmitAction
-      value: 
-      objectReference: {fileID: -1626123365601471949, guid: f5429aa6a40ec7e49924625aad1f9174, type: 3}
     - target: {fileID: 6318172981979175856, guid: 2148dbb03f9a6114cb48f9e13f262932, type: 3}
       propertyPath: m_Name
       value: GUI
@@ -1042,42 +1025,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1697647013, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: yThreshold
-      value: -8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1697647013, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: onFallDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1697647013, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: onFallDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1697647013, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: onFallDeath.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActive
-      objectReference: {fileID: 0}
-    - target: {fileID: 4140118803112367270, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: speed
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6768542817708736704, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: m_Parameters.widthMultiplier
-      value: 0.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 6768542817708736704, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6768542817708736704, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6768542817708736704, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6937248890623432491, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -1105,10 +1052,6 @@ PrefabInstance:
     - target: {fileID: 6937248890623432493, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6937248890623432493, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c193975b29b114c41af34af1e56aabf6, type: 3}

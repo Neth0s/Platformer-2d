@@ -2549,8 +2549,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 6318172982327334914}
-  settingsButton: {fileID: 1602959347}
   settingsMenu: {fileID: 729102457}
+  settingsButton: {fileID: 1602959347}
 --- !u!1 &6318172982327334914
 GameObject:
   m_ObjectHideFlags: 0
@@ -2710,8 +2710,8 @@ MonoBehaviour:
   m_XRTrackingOrigin: {fileID: 0}
   m_ActionsAsset: {fileID: -944628639613478452, guid: f5429aa6a40ec7e49924625aad1f9174, type: 3}
   m_PointAction: {fileID: 0}
-  m_MoveAction: {fileID: 6980664856769470019, guid: f5429aa6a40ec7e49924625aad1f9174, type: 3}
-  m_SubmitAction: {fileID: 3879551860167228876, guid: f5429aa6a40ec7e49924625aad1f9174, type: 3}
+  m_MoveAction: {fileID: 4130610888213427598, guid: f5429aa6a40ec7e49924625aad1f9174, type: 3}
+  m_SubmitAction: {fileID: -1626123365601471949, guid: f5429aa6a40ec7e49924625aad1f9174, type: 3}
   m_CancelAction: {fileID: 0}
   m_LeftClickAction: {fileID: 0}
   m_MiddleClickAction: {fileID: 0}
