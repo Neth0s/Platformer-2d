@@ -156,8 +156,9 @@ public class HorizontalMovement : MonoBehaviour
         if (IsDashing == DashState.Dashing && Time.time >= lastDashDate + dashTime)
         {
             IsDashing = DashState.Cooldown;
-
             if (settings.DashEffects) sprite.color = dashEmptyColor;
+
+            Speed = Mathf.Clamp(Speed, -maxSpeed, maxSpeed);
         }
 
         if (Time.time >= lastDashDate + dashTime + trailTime) trail.enabled = false;
@@ -165,7 +166,6 @@ public class HorizontalMovement : MonoBehaviour
         if (IsDashing == DashState.Cooldown && Time.time >= lastDashDate + dashReloadTime)
         {
             IsDashing = DashState.Idle;
-
             if (settings.DashEffects) sprite.color = Color.white;
         }
     }

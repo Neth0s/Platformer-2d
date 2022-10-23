@@ -55,7 +55,6 @@ public class Jump : MonoBehaviour
 
     private int jumpsLeft;
     private float wallJumpRadian;
-    private bool isJumping = false;
     private bool isFastfall = false;
     private bool cutoffApplied = false;
 
@@ -96,11 +95,13 @@ public class Jump : MonoBehaviour
     private void OnEnable()
     {
         manette.Player.Jump.performed += OnJump;
+        manette.Player.Fastfall.performed += OnFastfall;
     }
 
     private void OnDisable()
     {
         manette.Player.Jump.performed -= OnJump;
+        manette.Player.Fastfall.performed -= OnFastfall;
     }
 
     void FixedUpdate()
@@ -118,7 +119,9 @@ public class Jump : MonoBehaviour
 
     private void GetInput()
     {
-        if (isJumping && !cutoffApplied && VerticalSpeed > 0)
+        if (OnGround) return;
+
+        if (!cutoffApplied && VerticalSpeed > 0)
         {
             //Didn't release jump
             if (manette.Player.Jump.ReadValue<float>() != 0) return;
@@ -127,9 +130,19 @@ public class Jump : MonoBehaviour
             cutoffApplied = true;
         }
 
-        if (isJumping && !isFastfall && !OnWall && manette.Player.Fastfall.ReadValue<float>() != 0)
+        if (isFastfall && manette.Player.Fastfall.ReadValue<float>() == 0)
         {
-            VerticalSpeed = -fastFallSpeed;
+            VerticalSpeed /= 2;
+            isFastfall = false;
+            animator.Flatten();
+        }
+    }
+
+    private void OnFastfall(InputAction.CallbackContext obj)
+    {
+        VerticalSpeed = -fastFallSpeed;
+        if (!isFastfall)
+        {
             isFastfall = true;
             animator.FastStretch(fastfallSquash, fastfallStretch);
         }
@@ -139,7 +152,6 @@ public class Jump : MonoBehaviour
     {
         if (OnWall)
         {
-            isJumping = true;
             VerticalSpeed = wallJumpImpulse * Mathf.Sin(wallJumpRadian);
             movement.Speed = wallJumpImpulse * Mathf.Cos(wallJumpRadian);
 
@@ -155,10 +167,7 @@ public class Jump : MonoBehaviour
         if (jumpsLeft > 0)
         {
             jumpsLeft--;
-            isJumping = true;
-
-            if (leftGround) VerticalSpeed = jumpImpulse;
-            else VerticalSpeed += jumpImpulse;
+            VerticalSpeed = jumpImpulse;
 
             LeaveGround();
 
@@ -179,8 +188,8 @@ public class Jump : MonoBehaviour
 
     public void TouchGround(float bounciness)
     {
-        VerticalSpeed = -VerticalSpeed * bounciness;
         lastOnGroundDate = Time.time;
+        VerticalSpeed = -VerticalSpeed * bounciness;
 
         if (!leftGround) return;
 
@@ -189,12 +198,7 @@ public class Jump : MonoBehaviour
         cutoffApplied = false;
         movement.AirBrakeApplied = false;
 
-        if (bounciness != 0)
-        {
-            jumpsLeft--;
-            isJumping = true;
-        }
-        else isJumping = false;
+        if (bounciness != 0) jumpsLeft--;
 
         if (isFastfall)
         {

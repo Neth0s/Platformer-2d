@@ -217,12 +217,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6937248890623432491}
-  - component: {fileID: 4055713115326489985}
-  - component: {fileID: 8647398222796501217}
-  - component: {fileID: 5470684457791042511}
   - component: {fileID: 4140118803112367270}
   - component: {fileID: 6224878515104927682}
   - component: {fileID: 1697647013}
+  - component: {fileID: 4055713115326489985}
+  - component: {fileID: 8647398222796501217}
+  - component: {fileID: 5470684457791042511}
   - component: {fileID: 2472810527806173624}
   - component: {fileID: 7917709914183470045}
   m_Layer: 0
@@ -248,6 +248,80 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4140118803112367270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6937248890623432493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b203ab039b772cc458e6417a825f8424, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  acceleration: 80
+  desceleration: 80
+  maxSpeed: 10
+  turnSpeed: 5
+  airControl: 0.25
+  airBrake: 0.6
+  airTurnSpeed: 5
+  dashSpeed: 40
+  dashTime: 0.15
+  dashReloadTime: 1
+  runAngle: -15
+  dashingColor: {r: 0, g: 0, b: 1, a: 1}
+  dashEmptyColor: {r: 1, g: 1, b: 0, a: 1}
+  trailTime: 0.25
+  settings: {fileID: 11400000, guid: d8d08696fac5d6b4887389fea6d2ca8d, type: 2}
+--- !u!114 &6224878515104927682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6937248890623432493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7c0a6e813591cc4bacd1a5df5d7a729, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxUpSpeed: 35
+  maxDownSpeed: 50
+  fastFallSpeed: 35
+  maxJumps: 2
+  jumpImpulse: 15
+  burstParticles: {fileID: 6461465920845842017, guid: f08ac6955c5daea43a5793d6e3069e47, type: 3}
+  wallJumpImpulse: 16
+  wallJumpAngle: 50
+  wallJumpTime: 0.25
+  gravity: 30
+  wallSlideSpeed: 4
+  fallMultiplier: 1.5
+  jumpCutoff: 0.5
+  jumpBuffer: 0.1
+  coyoteTime: 0.1
+  jumpSquash: 1.6
+  landSquash: 1.3
+  fastfallSquash: 0.25
+  fastfallStretch: 1.5
+  settings: {fileID: 11400000, guid: d8d08696fac5d6b4887389fea6d2ca8d, type: 2}
+--- !u!114 &1697647013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6937248890623432493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a62235476d6f0a345bd83790d9a2c161, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restartDelay: 1
+  deathParticles: {fileID: 5107554950338607547, guid: 6d90804cd1cbd054ebd096c0408ca7af, type: 3}
+  settings: {fileID: 11400000, guid: d8d08696fac5d6b4887389fea6d2ca8d, type: 2}
 --- !u!50 &4055713115326489985
 Rigidbody2D:
   serializedVersion: 4
@@ -307,80 +381,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6599105a8385324f8eb10b7cc7b5764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4140118803112367270
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6937248890623432493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b203ab039b772cc458e6417a825f8424, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  acceleration: 80
-  desceleration: 80
-  maxSpeed: 10
-  turnSpeed: 5
-  airControl: 0.25
-  airBrake: 0.6
-  airTurnSpeed: 5
-  dashSpeed: 30
-  dashTime: 0.1
-  dashReloadTime: 1
-  runAngle: -15
-  dashingColor: {r: 0, g: 0, b: 1, a: 1}
-  dashEmptyColor: {r: 1, g: 1, b: 0, a: 1}
-  trailTime: 0.25
-  settings: {fileID: 11400000, guid: d8d08696fac5d6b4887389fea6d2ca8d, type: 2}
---- !u!114 &6224878515104927682
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6937248890623432493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7c0a6e813591cc4bacd1a5df5d7a729, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxUpSpeed: 23
-  maxDownSpeed: 50
-  fastFallSpeed: 35
-  maxJumps: 2
-  jumpImpulse: 15
-  burstParticles: {fileID: 6461465920845842017, guid: f08ac6955c5daea43a5793d6e3069e47, type: 3}
-  wallJumpImpulse: 15
-  wallJumpAngle: 50
-  wallJumpTime: 0.25
-  gravity: 30
-  wallSlideSpeed: 4
-  fallMultiplier: 1.5
-  jumpCutoff: 0.5
-  jumpBuffer: 0.1
-  coyoteTime: 0.1
-  jumpSquash: 1.6
-  landSquash: 1.3
-  fastfallSquash: 0.25
-  fastfallStretch: 1.5
-  settings: {fileID: 11400000, guid: d8d08696fac5d6b4887389fea6d2ca8d, type: 2}
---- !u!114 &1697647013
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6937248890623432493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a62235476d6f0a345bd83790d9a2c161, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  restartDelay: 1
-  deathParticles: {fileID: 5107554950338607547, guid: 6d90804cd1cbd054ebd096c0408ca7af, type: 3}
-  settings: {fileID: 11400000, guid: d8d08696fac5d6b4887389fea6d2ca8d, type: 2}
 --- !u!198 &2472810527806173624
 ParticleSystem:
   m_ObjectHideFlags: 0
