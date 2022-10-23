@@ -1,11 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Windows;
-using static UnityEngine.GraphicsBuffer;
 
 public class Jump : MonoBehaviour
 {
@@ -130,9 +125,9 @@ public class Jump : MonoBehaviour
             cutoffApplied = true;
         }
 
-        if (isFastfall && manette.Player.Fastfall.ReadValue<float>() == 0)
+        if (isFastfall && manette.Player.Fastfall.ReadValue<float>() == 0 || OnWall)
         {
-            VerticalSpeed /= 2;
+            if (!OnWall) VerticalSpeed /= 2;
             isFastfall = false;
             animator.Flatten();
         }
@@ -141,7 +136,7 @@ public class Jump : MonoBehaviour
     private void OnFastfall(InputAction.CallbackContext obj)
     {
         VerticalSpeed = -fastFallSpeed;
-        if (!isFastfall)
+        if (!isFastfall && !OnWall)
         {
             isFastfall = true;
             animator.FastStretch(fastfallSquash, fastfallStretch);
