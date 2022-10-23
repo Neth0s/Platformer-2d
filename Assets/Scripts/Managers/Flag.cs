@@ -16,12 +16,12 @@ public class Flag : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Clock clock = (Clock) FindObjectOfType(typeof(Clock));
+            Clock clock = FindObjectOfType<Clock>();
 
             if (clock != null)
             {
                 clock.EndLevel();
-                ScoreManager.UpdateScore(currentLevel, clock.LevelClock);
+                ScoreManager.UpdateScore(currentLevel, clock.Timer);
             }
 
             collision.gameObject.SetActive(false);

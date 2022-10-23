@@ -145,7 +145,7 @@ public partial class @Manette : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""87ec4a3a-7dc6-41e0-9c29-279a84a82466"",
-                    ""path"": ""<Keyboard>/rightShift"",
+                    ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
@@ -247,6 +247,15 @@ public partial class @Manette : IInputActionCollection2, IDisposable
                     ""name"": ""Pause"",
                     ""type"": ""Button"",
                     ""id"": ""98d80e99-11be-4c28-80d0-f70f0a7fc95c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Restart"",
+                    ""type"": ""Button"",
+                    ""id"": ""e38597b8-c6d0-4d54-adfc-c731a46640d2"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -366,17 +375,6 @@ public partial class @Manette : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""5e0b54b2-ca1f-48bb-8dba-4c505e57e3dd"",
-                    ""path"": ""<Gamepad>/select"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""XR;Gamepad"",
-                    ""action"": ""Pause"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""31452deb-7d27-4b1b-9cf3-a572035e2cfe"",
                     ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
@@ -394,6 +392,28 @@ public partial class @Manette : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5e0b54b2-ca1f-48bb-8dba-4c505e57e3dd"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""XR;Gamepad"",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e59ad5e6-88fd-4f31-871d-91d401750b07"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Restart"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -474,6 +494,7 @@ public partial class @Manette : IInputActionCollection2, IDisposable
         m_UI_Cursor = m_UI.FindAction("Cursor", throwIfNotFound: true);
         m_UI_Confirm = m_UI.FindAction("Confirm", throwIfNotFound: true);
         m_UI_Pause = m_UI.FindAction("Pause", throwIfNotFound: true);
+        m_UI_Restart = m_UI.FindAction("Restart", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -593,6 +614,7 @@ public partial class @Manette : IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Cursor;
     private readonly InputAction m_UI_Confirm;
     private readonly InputAction m_UI_Pause;
+    private readonly InputAction m_UI_Restart;
     public struct UIActions
     {
         private @Manette m_Wrapper;
@@ -600,6 +622,7 @@ public partial class @Manette : IInputActionCollection2, IDisposable
         public InputAction @Cursor => m_Wrapper.m_UI_Cursor;
         public InputAction @Confirm => m_Wrapper.m_UI_Confirm;
         public InputAction @Pause => m_Wrapper.m_UI_Pause;
+        public InputAction @Restart => m_Wrapper.m_UI_Restart;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -618,6 +641,9 @@ public partial class @Manette : IInputActionCollection2, IDisposable
                 @Pause.started -= m_Wrapper.m_UIActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnPause;
+                @Restart.started -= m_Wrapper.m_UIActionsCallbackInterface.OnRestart;
+                @Restart.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnRestart;
+                @Restart.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnRestart;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -631,6 +657,9 @@ public partial class @Manette : IInputActionCollection2, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @Restart.started += instance.OnRestart;
+                @Restart.performed += instance.OnRestart;
+                @Restart.canceled += instance.OnRestart;
             }
         }
     }
@@ -692,5 +721,6 @@ public partial class @Manette : IInputActionCollection2, IDisposable
         void OnCursor(InputAction.CallbackContext context);
         void OnConfirm(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnRestart(InputAction.CallbackContext context);
     }
 }

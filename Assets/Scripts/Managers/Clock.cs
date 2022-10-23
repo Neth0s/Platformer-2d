@@ -5,7 +5,7 @@ using TMPro;
 
 public class Clock : MonoBehaviour
 {
-    public float LevelClock { get; private set; } = 0;
+    public float Timer { get; private set; } = 0;
     private bool levelEnded = false;
 
     TextMeshProUGUI text;
@@ -20,8 +20,8 @@ public class Clock : MonoBehaviour
     {
         if (!levelEnded)
         {
-            LevelClock += Time.deltaTime;
-            text.text = LevelClock.ToString("00.00");
+            Timer += Time.deltaTime;
+            text.text = Timer.ToString("00.00");
         }
     }
 

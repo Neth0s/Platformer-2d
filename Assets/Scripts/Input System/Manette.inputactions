@@ -123,7 +123,7 @@
                 {
                     "name": "",
                     "id": "87ec4a3a-7dc6-41e0-9c29-279a84a82466",
-                    "path": "<Keyboard>/rightShift",
+                    "path": "<Keyboard>/shift",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -225,6 +225,15 @@
                     "name": "Pause",
                     "type": "Button",
                     "id": "98d80e99-11be-4c28-80d0-f70f0a7fc95c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Restart",
+                    "type": "Button",
+                    "id": "e38597b8-c6d0-4d54-adfc-c731a46640d2",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -344,17 +353,6 @@
                 },
                 {
                     "name": "",
-                    "id": "5e0b54b2-ca1f-48bb-8dba-4c505e57e3dd",
-                    "path": "<Gamepad>/select",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "XR;Gamepad",
-                    "action": "Pause",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "31452deb-7d27-4b1b-9cf3-a572035e2cfe",
                     "path": "<Gamepad>/start",
                     "interactions": "",
@@ -372,6 +370,28 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5e0b54b2-ca1f-48bb-8dba-4c505e57e3dd",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XR;Gamepad",
+                    "action": "Restart",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e59ad5e6-88fd-4f31-871d-91d401750b07",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Restart",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

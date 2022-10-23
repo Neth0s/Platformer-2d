@@ -21,11 +21,16 @@ public class FallDeath : MonoBehaviour
 
     private void Update()
     {
-        if (transform.position.y < yThreshold && !dead)
-        {
-            DisablePlayer();
-            StartCoroutine(RestartScene());
-        }
+        if (transform.position.y < yThreshold && !dead) Die();
+    }
+
+    public void Die()
+    {
+        Clock clock = FindObjectOfType<Clock>();
+        if (clock != null) clock.EndLevel();
+
+        DisablePlayer();
+        StartCoroutine(RestartScene());
     }
 
     public void DisablePlayer()

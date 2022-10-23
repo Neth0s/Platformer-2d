@@ -10,30 +10,33 @@ public class Pause : MonoBehaviour
     [Header("Menu")]
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject settingsMenu;
+
+    [Header("Buttons")]
+    [SerializeField] private Button firstSelected;
     [SerializeField] private Button settingsButton;
 
     private Manette manette;
-    private HorizontalMovement playerHorizontal;
-    private Jump playerJump;
+    private GameObject player;
 
     private void Awake()
     {
         manette = new Manette();
         manette.UI.Pause.Enable();
+        manette.UI.Restart.Enable();
 
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        playerHorizontal = player.GetComponent<HorizontalMovement>();
-        playerJump = player.GetComponent<Jump>();
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     private void OnEnable()
     {
-        manette.UI.Pause.canceled += PauseMenu;
+        manette.UI.Pause.performed += PauseMenu;
+        manette.UI.Restart.performed += Restart;
     }
 
     private void OnDisable()
     {
-        manette.UI.Pause.canceled -= PauseMenu;
+        manette.UI.Pause.performed -= PauseMenu;
+        manette.UI.Restart.performed -= Restart;
     }
 
     public void PauseMenu(InputAction.CallbackContext obj)
@@ -53,15 +56,20 @@ public class Pause : MonoBehaviour
         else
         {
             pauseMenu.SetActive(true);
-            settingsButton.Select();
+            firstSelected.Select();
             EnablePlayerCommands(false);
             Time.timeScale = 0;
         }
     }
 
+    public void Restart(InputAction.CallbackContext obj)
+    {
+        player.GetComponent<FallDeath>().Die();
+    }
+
     private void EnablePlayerCommands(bool active)
     {
-        playerHorizontal.EnableCommands(active);
-        playerJump.EnableCommands(active);
+        player.GetComponent<HorizontalMovement>().EnableCommands(active);
+        player.GetComponent<Jump>().EnableCommands(active);
     }
 }
