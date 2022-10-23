@@ -353,7 +353,7 @@ MonoBehaviour:
   jumpImpulse: 15
   burstParticles: {fileID: 6461465920845842017, guid: f08ac6955c5daea43a5793d6e3069e47, type: 3}
   wallJumpImpulse: 15
-  wallJumpAngle: 45
+  wallJumpAngle: 50
   wallJumpTime: 0.25
   gravity: 30
   wallSlideSpeed: 4
