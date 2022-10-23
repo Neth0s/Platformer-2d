@@ -160,6 +160,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endDelay: 1.5
+  currentLevel: 0
+  nextScene: Menu
 --- !u!198 &2403663865513946911
 ParticleSystem:
   m_ObjectHideFlags: 0

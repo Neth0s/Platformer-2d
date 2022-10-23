@@ -4,15 +4,21 @@ using UnityEngine;
 
 public static class ScoreManager
 {
-    private static readonly float[] scores = new float[10];
 
     public static void UpdateScore(int level, float value)
     {
-        scores[level - 1] = value;
+        PlayerPrefs.SetFloat("level" + level, value);
+        PlayerPrefs.Save();
     }
 
     public static float GetScore(int level)
     {
-        return scores[level - 1];
+        return PlayerPrefs.GetFloat("level" + level, 0);
+    }
+
+    public static void ResetScores()
+    {
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.Save();
     }
 }

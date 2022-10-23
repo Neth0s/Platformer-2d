@@ -8,16 +8,22 @@ public class Flag : MonoBehaviour
 {
     [SerializeField] private float endDelay;
 
-    [SerializeField] private int nextSceneBuildIndex = 0;
+    [Header("Level")]
+    [SerializeField] private int currentLevel;
+    [SerializeField] private string nextScene;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Clock clock = FindObjectOfType(typeof(Clock)).GetComponent<Clock>();
-            clock.EndLevel();
+            Clock clock = (Clock) FindObjectOfType(typeof(Clock));
 
-            ScoreManager.UpdateScore(SceneManager.GetActiveScene().buildIndex, clock.LevelClock);
+            if (clock != null)
+            {
+                clock.EndLevel();
+                ScoreManager.UpdateScore(currentLevel, clock.LevelClock);
+            }
+
             collision.gameObject.SetActive(false);
             StartCoroutine(EndLevel());
         }
@@ -27,6 +33,6 @@ public class Flag : MonoBehaviour
     {
         GetComponent<ParticleSystem>().Play();
         yield return new WaitForSeconds(endDelay);
-        SceneManager.LoadScene(nextSceneBuildIndex);
+        SceneManager.LoadScene(nextScene);
     }
 }
