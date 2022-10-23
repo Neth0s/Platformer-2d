@@ -10,6 +10,7 @@ public class Pause : MonoBehaviour
     [Header("Menu")]
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject settingsMenu;
+    [SerializeField] private GameObject tutorial;
 
     [Header("Buttons")]
     [SerializeField] private Button firstSelected;
@@ -43,8 +44,9 @@ public class Pause : MonoBehaviour
     {
         if (pauseMenu.activeSelf)
         {
-            pauseMenu.SetActive(false);
             EnablePlayerCommands(true);
+            tutorial.SetActive(true);
+            pauseMenu.SetActive(false);
             Time.timeScale = 1;
         }
         else if (settingsMenu.activeSelf)
@@ -55,9 +57,10 @@ public class Pause : MonoBehaviour
         }
         else
         {
+            EnablePlayerCommands(false);
+            tutorial.SetActive(false);
             pauseMenu.SetActive(true);
             firstSelected.Select();
-            EnablePlayerCommands(false);
             Time.timeScale = 0;
         }
     }
