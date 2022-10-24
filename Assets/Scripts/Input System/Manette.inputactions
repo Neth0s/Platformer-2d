@@ -133,17 +133,6 @@
                 },
                 {
                     "name": "",
-                    "id": "85b34225-6053-4ac6-9681-7e563c170597",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "87ec4a3a-7dc6-41e0-9c29-279a84a82466",
                     "path": "<Keyboard>/shift",
                     "interactions": "",

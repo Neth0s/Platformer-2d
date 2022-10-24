@@ -54,6 +54,8 @@ public class Jump : MonoBehaviour
     private bool isFastfall = false;
     private bool cutoffApplied = false;
 
+    private bool justBounced = false;
+
     private HorizontalMovement movement;
     private ParticleSystem particles;
     private SpriteAnimator animator;
@@ -117,7 +119,7 @@ public class Jump : MonoBehaviour
     {
         if (OnGround) return;
 
-        if (!cutoffApplied && VerticalSpeed > 0)
+        if (!cutoffApplied && VerticalSpeed > 0 && !justBounced)
         {
             //Didn't release jump
             if (manette.Player.Jump.ReadValue<float>() != 0) return;
@@ -198,11 +200,21 @@ public class Jump : MonoBehaviour
         {
             jumpsLeft--;
 
-            Debug.Log(manette.Player.Jump.ReadValue<float>());
-            if (manette.Player.Jump.ReadValue<float>() != 0f)
-            {
-                VerticalSpeed = jumpImpulseOnBouncy;
-            }
+            VerticalSpeed = jumpImpulseOnBouncy;
+            LeaveGround();
+
+            justBounced = true;
+
+            isFastfall = false;
+
+            if (settings.MovementParticles)
+                Destroy(Instantiate(burstParticles, transform), 1);
+
+            animator.StretchLoop(1 / jumpSquash, jumpSquash);
+        }
+        else
+        {
+            justBounced = false;
         }
 
         if (isFastfall)

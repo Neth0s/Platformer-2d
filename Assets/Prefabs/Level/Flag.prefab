@@ -93,8 +93,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6955581924349327665}
-  - component: {fileID: 3999559294222094354}
   - component: {fileID: 5086004613626375904}
+  - component: {fileID: 3999559294222094354}
   - component: {fileID: 2403663865513946911}
   - component: {fileID: 1958299605407008435}
   m_Layer: 2
@@ -121,6 +121,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5086004613626375904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6955581924349327664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13810401e885bb9418b7502206f76724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  endDelay: 1.5
+  currentLevel: 0
+  nextScene: Menu
 --- !u!61 &3999559294222094354
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -147,21 +162,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &5086004613626375904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6955581924349327664}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13810401e885bb9418b7502206f76724, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  endDelay: 1.5
-  currentLevel: 0
-  nextScene: Menu
 --- !u!198 &2403663865513946911
 ParticleSystem:
   m_ObjectHideFlags: 0
