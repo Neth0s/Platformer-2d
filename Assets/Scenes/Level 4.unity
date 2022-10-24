@@ -790,11 +790,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5797396857785656925, guid: 363cc27f6c19b114f9dcae08c5ffd1db, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5797396857785656925, guid: 363cc27f6c19b114f9dcae08c5ffd1db, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5797396857785656925, guid: 363cc27f6c19b114f9dcae08c5ffd1db, type: 3}
       propertyPath: m_LocalScale.y
