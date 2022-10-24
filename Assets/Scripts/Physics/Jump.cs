@@ -242,10 +242,10 @@ public class Jump : MonoBehaviour
 
     public void TouchWall(Direction direction)
     {
+        if (!OnWall) GetComponent<Rumble>().SlideRumble();
+
         wallSide = direction;
         lastOnWallDate = Time.time;
-
-        GetComponent<Rumble>().SlideRumble();
         leftWall = false;
     }
 
