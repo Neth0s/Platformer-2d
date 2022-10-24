@@ -1,124 +1,66 @@
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
-public enum RumblePattern
-{
-    Constant,
-    Pulse,
-    Linear
-}
 
 public class Rumble : MonoBehaviour
 {
+    [Header("Wall Slide")]
+    [SerializeField, Range(0f, 1f)] private float lowS_slide;
+    [SerializeField, Range(0f, 1f)] private float highS_slide;
+
+    [Header("Dash")]
+    [SerializeField, Range(0f, 1f)] private float lowS_dash;
+    [SerializeField, Range(0f, 1f)] private float highS_dash;
+    [SerializeField, Min(0)] private float durationDash;
+
+    [Header("Death")]
+    [SerializeField, Range(0f, 1f)] private float lowS_death;
+    [SerializeField, Range(0f, 1f)] private float highS_death;
+    [SerializeField, Min(0)] private float durationDeath;
+
     private PlayerInput _playerInput;
-    private RumblePattern rumblePattern;
-
-    private float rumbleEnd;
-    private float pulseDuration;
-
-    private float lowAmplitude;
-    private float highAmplitude;
-
-    private float lowStep;
-    private float highStep;
-    private float rumbleStep;
-
-    private bool isMotorActive = false;
-
 
     private void Awake()
     {
         _playerInput = GetComponent<PlayerInput>();
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         StopAllCoroutines();
         StopRumble();
     }
 
-    private void Update()
+    //Rumble methods
+    private void StartRumble(float lowSpeed, float highSpeed)
     {
-        if (Time.time > rumbleEnd)
-        {
-            StopRumble();
-            return;
-        }
-
         var gamepad = GetGamepad();
-        if (gamepad == null) return;
-
-        switch (rumblePattern)
-        {
-            case RumblePattern.Constant:
-                gamepad.SetMotorSpeeds(lowAmplitude, highAmplitude);
-                break;
-
-            case RumblePattern.Pulse:
-
-                if (Time.time > pulseDuration)
-                {
-                    isMotorActive = !isMotorActive;
-                    pulseDuration = Time.time + rumbleStep;
-
-                    if (!isMotorActive) gamepad.SetMotorSpeeds(0, 0);
-                    else gamepad.SetMotorSpeeds(lowAmplitude, highAmplitude);
-                }
-                break;
-
-            case RumblePattern.Linear:
-                gamepad.SetMotorSpeeds(lowAmplitude, highAmplitude);
-                lowAmplitude += (lowStep * Time.deltaTime);
-                highAmplitude += (highStep * Time.deltaTime);
-                break;
-
-            default:
-                break;
-        }
+        gamepad?.SetMotorSpeeds(lowSpeed, highSpeed);
     }
 
-    public void RumbleConstant(float low, float high, float duration)
+    private void RumbleImpulse(float lowSpeed, float highSpeed, float duration)
     {
-        rumblePattern = RumblePattern.Constant;
-        lowAmplitude = low;
-        highAmplitude = high;
-        rumbleEnd = Time.time + duration;
+        StartRumble(lowSpeed, highSpeed);
+        StartCoroutine(StopRumbleDelayed(duration));
     }
 
-    public void RumblePulse(float low, float high, float burstTime, float duration)
+    private IEnumerator StopRumbleDelayed(float delay)
     {
-        rumblePattern = RumblePattern.Pulse;
-
-        lowAmplitude = low;
-        highAmplitude = high;
-        rumbleStep = burstTime;
-
-        pulseDuration = Time.time + burstTime;
-        rumbleEnd = Time.time + duration;
-
-        isMotorActive = true;
-
-        var g = GetGamepad();
-        g?.SetMotorSpeeds(lowAmplitude, highAmplitude);
-    }
-
-    public void RumbleLinear(float lowStart, float lowEnd, float highStart, float highEnd, float duration)
-    {
-        rumblePattern = RumblePattern.Linear;
-        lowAmplitude = lowStart;
-        highAmplitude = highStart;
-
-        lowStep = (lowEnd - lowStart) / duration;
-        highStep = (highEnd - highStart) / duration;
-
-        rumbleEnd = Time.time + duration;
+        yield return new WaitForSeconds(delay);
+        StopRumble();
     }
 
     public void StopRumble()
     {
         var gamepad = GetGamepad();
-        if (gamepad != null) gamepad.SetMotorSpeeds(0, 0);
+        gamepad?.SetMotorSpeeds(0, 0);
     }
+
+    //Rumble presets
+    public void DeathRumble() => RumbleImpulse(lowS_death, highS_death, durationDeath);
+    public void DashRumble() => RumbleImpulse(lowS_dash, highS_dash, durationDash);
+    public void SlideRumble() => StartRumble(lowS_slide, highS_slide);
 
 
     private Gamepad GetGamepad()

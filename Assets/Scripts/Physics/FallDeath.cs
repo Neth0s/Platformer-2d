@@ -26,6 +26,8 @@ public class FallDeath : MonoBehaviour
 
     public void Die()
     {
+        GetComponent<Rumble>().DeathRumble();
+
         Clock clock = FindObjectOfType<Clock>();
         if (clock != null) clock.EndLevel();
 

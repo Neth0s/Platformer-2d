@@ -143,6 +143,8 @@ public class HorizontalMovement : MonoBehaviour
                 sprite.color = dashingColor;
                 trail.enabled = true;
             }
+
+            GetComponent<Rumble>().DashRumble();
         }
     }
 

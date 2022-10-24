@@ -43,6 +43,7 @@ public class Jump : MonoBehaviour
     public float VerticalSpeed { get; private set; } = 0;
 
     private bool leftGround = false;
+    private bool leftWall = true;
     private Direction wallSide = Direction.None;
 
     private float lastOnGroundDate = -Mathf.Infinity;
@@ -51,9 +52,9 @@ public class Jump : MonoBehaviour
 
     private int jumpsLeft;
     private float wallJumpRadian;
+
     private bool isFastfall = false;
     private bool cutoffApplied = false;
-
     private bool justBounced = false;
 
     private HorizontalMovement movement;
@@ -113,6 +114,12 @@ public class Jump : MonoBehaviour
         VerticalSpeed = Math.Clamp(VerticalSpeed, maxFallSpeed, maxUpSpeed);
 
         transform.position += VerticalSpeed * Time.deltaTime * Vector3.up;
+
+        if (!OnWall && !leftWall)
+        {
+            GetComponent<Rumble>().StopRumble();
+            leftWall = true;
+        }
     }
 
     private void GetInput()
@@ -237,6 +244,9 @@ public class Jump : MonoBehaviour
     {
         wallSide = direction;
         lastOnWallDate = Time.time;
+
+        GetComponent<Rumble>().SlideRumble();
+        leftWall = false;
     }
 
     public void StopSpeed() => VerticalSpeed = 0;
