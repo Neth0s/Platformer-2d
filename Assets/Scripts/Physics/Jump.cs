@@ -5,13 +5,14 @@ using UnityEngine.InputSystem;
 public class Jump : MonoBehaviour
 {
     [Header("Speed")]
-    [SerializeField, Min(0)] private float maxUpSpeed = 30f;
+    [SerializeField, Min(0)] private float maxUpSpeed = 25;
     [SerializeField, Min(0)] private float maxDownSpeed = 50f;
     [SerializeField, Min(0)] private float fastFallSpeed = 30f;
 
     [Header("Jump parameters")]
     [SerializeField, Min(0)] private int maxJumps = 2;
     [SerializeField, Min(0)] private float jumpImpulse = 10f;
+    [SerializeField, Min(0)] private float jumpImpulseOnBouncy = 25f;
     [SerializeField] private GameObject burstParticles;
 
     [Header("Wall Jump")]
@@ -52,6 +53,8 @@ public class Jump : MonoBehaviour
     private float wallJumpRadian;
     private bool isFastfall = false;
     private bool cutoffApplied = false;
+
+    private bool justBounced = false;
 
     private HorizontalMovement movement;
     private ParticleSystem particles;
@@ -116,7 +119,7 @@ public class Jump : MonoBehaviour
     {
         if (OnGround) return;
 
-        if (!cutoffApplied && VerticalSpeed > 0)
+        if (!cutoffApplied && VerticalSpeed > 0 && !justBounced)
         {
             //Didn't release jump
             if (manette.Player.Jump.ReadValue<float>() != 0) return;
@@ -193,7 +196,26 @@ public class Jump : MonoBehaviour
         cutoffApplied = false;
         movement.AirBrakeApplied = false;
 
-        if (bounciness != 0) jumpsLeft--;
+        if (bounciness != 0)
+        {
+            jumpsLeft--;
+
+            VerticalSpeed = jumpImpulseOnBouncy;
+            LeaveGround();
+
+            justBounced = true;
+
+            isFastfall = false;
+
+            if (settings.MovementParticles)
+                Destroy(Instantiate(burstParticles, transform), 1);
+
+            animator.StretchLoop(1 / jumpSquash, jumpSquash);
+        }
+        else
+        {
+            justBounced = false;
+        }
 
         if (isFastfall)
         {

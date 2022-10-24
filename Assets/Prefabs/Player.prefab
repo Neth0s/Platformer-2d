@@ -287,9 +287,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c0a6e813591cc4bacd1a5df5d7a729, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxUpSpeed: 35
+  maxUpSpeed: 25
   maxDownSpeed: 50
   fastFallSpeed: 35
+  verticalSpeedOnBouncy: 25
   maxJumps: 2
   jumpImpulse: 15
   burstParticles: {fileID: 6461465920845842017, guid: f08ac6955c5daea43a5793d6e3069e47, type: 3}
