@@ -60,6 +60,7 @@ public class Jump : MonoBehaviour
     private HorizontalMovement movement;
     private ParticleSystem particles;
     private SpriteAnimator animator;
+    private Rumble rumble;
 
     private Manette manette;
 
@@ -80,6 +81,7 @@ public class Jump : MonoBehaviour
         movement = GetComponent<HorizontalMovement>();
         particles = GetComponent<ParticleSystem>();
         animator = GetComponentInChildren<SpriteAnimator>();
+        rumble = GetComponent<Rumble>();
 
         manette = new Manette();
         manette.Player.Jump.Enable();
@@ -88,7 +90,7 @@ public class Jump : MonoBehaviour
         jumpsLeft = maxJumps;
         wallJumpRadian = wallJumpAngle *Mathf.PI / 180f;
 
-        if (!settings.MovementParticles) particles.Stop();
+        if (!settings.Particles) particles.Stop();
     }
 
     private void OnEnable()
@@ -115,10 +117,15 @@ public class Jump : MonoBehaviour
 
         transform.position += VerticalSpeed * Time.deltaTime * Vector3.up;
 
-        if (!OnWall && !leftWall)
+        if (settings.Vibrations)
         {
-            GetComponent<Rumble>().StopRumble();
-            leftWall = true;
+            if (OnWall && VerticalSpeed == -wallSlideSpeed) 
+                rumble.SlideRumble();
+            if (!leftWall)
+            {
+                rumble.StopRumble();
+                leftWall = true;
+            }
         }
     }
 
@@ -139,17 +146,17 @@ public class Jump : MonoBehaviour
         {
             if (!OnWall) VerticalSpeed /= 2;
             isFastfall = false;
-            animator.Flatten();
+            if (settings.Animations) animator.Flatten();
         }
     }
 
     private void OnFastfall(InputAction.CallbackContext obj)
     {
         VerticalSpeed = -fastFallSpeed;
-        if (!isFastfall && !OnWall)
+        if (!isFastfall && !OnWall && !OnGround)
         {
             isFastfall = true;
-            animator.FastStretch(fastfallSquash, fastfallStretch);
+            if (settings.Animations) animator.FastStretch(fastfallSquash, fastfallStretch);
         }
     }
 
@@ -176,10 +183,8 @@ public class Jump : MonoBehaviour
 
             LeaveGround();
 
-            if(settings.MovementParticles)
-                Destroy(Instantiate(burstParticles, transform), 1);
-
-            animator.StretchLoop(1/jumpSquash, jumpSquash);
+            if(settings.Particles) Destroy(Instantiate(burstParticles, transform), 1);
+            if (settings.Animations) animator.StretchLoop(1/jumpSquash, jumpSquash);
         }
         else lastJumpTap = Time.time;
     }
@@ -187,8 +192,8 @@ public class Jump : MonoBehaviour
     private void LeaveGround()
     {
         leftGround = true;
-        if(settings.MovementParticles) particles.Stop();
-        animator.ResetRotation();
+        if(settings.Particles) particles.Stop();
+        if (settings.Animations) animator.ResetRotation();
     }
 
     public void TouchGround(float bounciness)
@@ -214,10 +219,8 @@ public class Jump : MonoBehaviour
 
             isFastfall = false;
 
-            if (settings.MovementParticles)
-                Destroy(Instantiate(burstParticles, transform), 1);
-
-            animator.StretchLoop(1 / jumpSquash, jumpSquash);
+            if (settings.Particles) Destroy(Instantiate(burstParticles, transform), 1);
+            if (settings.Animations) animator.StretchLoop(1 / jumpSquash, jumpSquash);
         }
         else
         {
@@ -227,11 +230,11 @@ public class Jump : MonoBehaviour
         if (isFastfall)
         {
             isFastfall = false;
-            animator.Flatten();
+            if (settings.Animations) animator.Flatten();
         }
-        else animator.StretchLoop(landSquash, 1 / landSquash);
+        else if (settings.Animations) animator.StretchLoop(landSquash, 1 / landSquash);
 
-        if (settings.MovementParticles) particles.Play();
+        if (settings.Particles) particles.Play();
 
         if (lastJumpTap != -Mathf.Infinity)
         {
@@ -242,8 +245,6 @@ public class Jump : MonoBehaviour
 
     public void TouchWall(Direction direction)
     {
-        if (!OnWall) GetComponent<Rumble>().SlideRumble();
-
         wallSide = direction;
         lastOnWallDate = Time.time;
         leftWall = false;

@@ -8,7 +8,7 @@ public class ScoreDisplay : MonoBehaviour
     [SerializeField] private int level;
     private TextMeshProUGUI text;
 
-    void Start()
+    void OnEnable()
     {
         text = GetComponent<TextMeshProUGUI>();
 

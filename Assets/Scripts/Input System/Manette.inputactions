@@ -268,7 +268,7 @@
                     "id": "277d9620-b42d-4e40-9b2d-8efe2807b293",
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "StickDeadzone(min=0.5)",
                     "groups": "Gamepad;XR",
                     "action": "Cursor",
                     "isComposite": false,

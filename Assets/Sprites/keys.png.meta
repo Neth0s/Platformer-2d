@@ -1544,6 +1544,69 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: keys_68
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 56
+        width: 22
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2742dd675404e640ad4617a0ab8ff93
+      internalID: 1713091689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: keys_69
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 1
+        width: 12
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ccaf848ace891d48831256e0000a7d0
+      internalID: 445940556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: keys_70
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 1
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41506d63d35c9f3469c293c22f2dcb65
+      internalID: 1768446757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -1567,15 +1630,18 @@ TextureImporter:
       keys_52: 1245920117
       keys_60: -1892665830
       keys_20: -1724574762
+      keys_70: 1768446757
       keys_44: -553176292
       keys_62: 920568847
       keys_58: -1396822411
       keys_24: -1061863785
       keys_59: 1495058602
       keys_42: 540176670
+      keys_68: 1713091689
       keys_33: 820996008
       keys_64: -2137142855
       keys_61: -1534409700
+      keys_69: 445940556
       keys_9: -269571674
       keys_29: -157035143
       keys_0: -1137064554

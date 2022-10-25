@@ -216,6 +216,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4180331501230179027, guid: 2148dbb03f9a6114cb48f9e13f262932, type: 3}
+      propertyPath: isTutorial
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4180331501230179027, guid: 2148dbb03f9a6114cb48f9e13f262932, type: 3}
+      propertyPath: _playerInput
+      value: 
+      objectReference: {fileID: 6937248890452383943}
+    - target: {fileID: 4180331501230179027, guid: 2148dbb03f9a6114cb48f9e13f262932, type: 3}
+      propertyPath: gamepadInputs
+      value: 
+      objectReference: {fileID: 577324264}
+    - target: {fileID: 4180331501230179027, guid: 2148dbb03f9a6114cb48f9e13f262932, type: 3}
+      propertyPath: keyboardInputs
+      value: 
+      objectReference: {fileID: 1694279038}
     - target: {fileID: 6318172981979175856, guid: 2148dbb03f9a6114cb48f9e13f262932, type: 3}
       propertyPath: m_Name
       value: GUI
@@ -558,7 +574,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -550, y: -10}
+  m_AnchoredPosition: {x: -550, y: 100}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &699675829 stripped
@@ -1194,7 +1210,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -550, y: 130}
+  m_AnchoredPosition: {x: -550, y: 100}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2023453643
@@ -1453,6 +1469,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
+--- !u!114 &6937248890452383943 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8792029542123067070, guid: c193975b29b114c41af34af1e56aabf6, type: 3}
+  m_PrefabInstance: {fileID: 6937248890452383942}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6955581923683732868
 PrefabInstance:
   m_ObjectHideFlags: 0

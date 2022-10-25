@@ -408,7 +408,39 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_ActionEvents: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 52dc9b2e-505d-452a-9abb-62f5420460d2
+    m_ActionName: Player/Move[/XInputControllerWindows/leftStick/x,/XInputControllerWindows/dpad/x,/Keyboard/leftArrow,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ae6b2b56-d6cd-4db9-b574-5c60091e5fb3
+    m_ActionName: Player/Jump[/XInputControllerWindows/buttonSouth,/Keyboard/space,/Keyboard/upArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 66e0474b-9fb3-4be2-8020-ff75bd7802c4
+    m_ActionName: Player/Dash[/XInputControllerWindows/buttonWest,/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 19725aba-9238-4e38-87a3-4d737fd9f773
+    m_ActionName: Player/Fastfall[/Keyboard/downArrow,/XInputControllerWindows/dpad/down,/XInputControllerWindows/leftStick/down]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0c034bd6-0f9e-45b5-b181-57a286cbeb94
+    m_ActionName: UI/Cursor[/XInputControllerWindows/dpad,/XInputControllerWindows/leftStick,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e970b603-e313-47e8-a7db-69b334a65d11
+    m_ActionName: UI/Confirm[/Keyboard/enter,/Keyboard/space,/XInputControllerWindows/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 98d80e99-11be-4c28-80d0-f70f0a7fc95c
+    m_ActionName: UI/Pause[/XInputControllerWindows/start,/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e38597b8-c6d0-4d54-adfc-c731a46640d2
+    m_ActionName: UI/Restart[/XInputControllerWindows/select,/Keyboard/r]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -426,11 +458,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5910635ddfba57c4cbda96c35daeb8fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lowS_slide: 0.05
-  highS_slide: 0.05
-  lowS_dash: 0.2
-  highS_dash: 0.2
-  durationDash: 0.3
+  lowS_slide: 0.1
+  highS_slide: 0.1
+  slidePulse: 0.1
+  slideDuration: 0.2
+  lowS_dash: 0.1
+  highS_dash: 0.1
+  durationDash: 0.25
   lowS_death: 0.75
   highS_death: 0.75
   durationDeath: 0.5

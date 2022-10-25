@@ -7,14 +7,14 @@ public class SetSettingPanel : MonoBehaviour
 {
     [SerializeField] Settings settings;
 
-    [SerializeField] Toggle dashEffects;
-    [SerializeField] Toggle deathEffects;
-    [SerializeField] Toggle movementParticles;
+    [SerializeField] Toggle particles;
+    [SerializeField] Toggle animations;
+    [SerializeField] Toggle vibrations;
 
     private void OnEnable()
     {
-        dashEffects.isOn = settings.DashEffects;
-        deathEffects.isOn = settings.DeathEffects;
-        movementParticles.isOn = settings.MovementParticles;
+        particles.isOn = settings.Particles;
+        animations.isOn = settings.Animations;
+        vibrations.isOn = settings.Vibrations;
     }
 }

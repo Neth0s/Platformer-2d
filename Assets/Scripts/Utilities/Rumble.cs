@@ -8,6 +8,8 @@ public class Rumble : MonoBehaviour
     [Header("Wall Slide")]
     [SerializeField, Range(0f, 1f)] private float lowS_slide;
     [SerializeField, Range(0f, 1f)] private float highS_slide;
+    [SerializeField, Min(0)] private float slidePulse;
+    [SerializeField, Min(0)] private float slideDuration;
 
     [Header("Dash")]
     [SerializeField, Range(0f, 1f)] private float lowS_dash;
@@ -45,6 +47,17 @@ public class Rumble : MonoBehaviour
         StartCoroutine(StopRumbleDelayed(duration));
     }
 
+    private IEnumerator RumblePulsation(float lowSpeed, float highSpeed, float pulseLength, float duration)
+    {
+        float endTime = Time.time + duration;
+
+        while (Time.time < endTime)
+        {
+            RumbleImpulse(lowSpeed, highSpeed, pulseLength);
+            yield return new WaitForSeconds(2*pulseLength);
+        }
+    }
+
     private IEnumerator StopRumbleDelayed(float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -60,7 +73,7 @@ public class Rumble : MonoBehaviour
     //Rumble presets
     public void DeathRumble() => RumbleImpulse(lowS_death, highS_death, durationDeath);
     public void DashRumble() => RumbleImpulse(lowS_dash, highS_dash, durationDash);
-    public void SlideRumble() => StartRumble(lowS_slide, highS_slide);
+    public void SlideRumble() => StartCoroutine(RumblePulsation(lowS_slide, highS_slide,slidePulse, slideDuration));
 
 
     private Gamepad GetGamepad()

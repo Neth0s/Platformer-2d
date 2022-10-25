@@ -25,11 +25,11 @@ public class HorizontalMovement : MonoBehaviour
     [SerializeField, Min(0)] private float dashReloadTime = 1f;
 
     [Header("Animation")]
+    [SerializeField] private Settings settings;
     [SerializeField, Range(-30, 30)] private float runAngle = -15f;
     [SerializeField] private Color dashingColor;
     [SerializeField] private Color dashEmptyColor;
     [SerializeField, Min(0)] private float trailTime = 0.25f;
-    [SerializeField] private Settings settings;
 
     private float input = 0;
     public float Speed { get; set; } = 0;
@@ -86,7 +86,7 @@ public class HorizontalMovement : MonoBehaviour
         bool onGround = jumpController.OnGround;
 
         if (!onGround) input *= airControl;
-        else animator.Rotate(runAngle * Speed / maxSpeed);
+        else if (settings.Animations) animator.Rotate(runAngle * Speed / maxSpeed);
 
         if (IsDashing == DashState.Dashing)
         {
@@ -138,13 +138,12 @@ public class HorizontalMovement : MonoBehaviour
             lastDashDate = Time.time;
             dashDirection = input >= 0 ? Direction.Right : Direction.Left;
 
-            if (settings.DashEffects)
+            if (settings.Particles)
             {
                 sprite.color = dashingColor;
                 trail.enabled = true;
             }
-
-            GetComponent<Rumble>().DashRumble();
+            if (settings.Vibrations) GetComponent<Rumble>().DashRumble();
         }
     }
 
@@ -155,7 +154,7 @@ public class HorizontalMovement : MonoBehaviour
         if (IsDashing == DashState.Dashing && Time.time >= lastDashDate + dashTime)
         {
             IsDashing = DashState.Cooldown;
-            if (settings.DashEffects) sprite.color = dashEmptyColor;
+            sprite.color = dashEmptyColor;
 
             Speed = Mathf.Clamp(Speed, -maxSpeed, maxSpeed);
         }
@@ -165,7 +164,7 @@ public class HorizontalMovement : MonoBehaviour
         if (IsDashing == DashState.Cooldown && Time.time >= lastDashDate + dashReloadTime)
         {
             IsDashing = DashState.Idle;
-            if (settings.DashEffects) sprite.color = Color.white;
+            sprite.color = Color.white;
         }
     }
 

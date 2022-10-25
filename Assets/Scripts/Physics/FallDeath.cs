@@ -26,10 +26,11 @@ public class FallDeath : MonoBehaviour
 
     public void Die()
     {
-        GetComponent<Rumble>().DeathRumble();
-
         Clock clock = FindObjectOfType<Clock>();
         if (clock != null) clock.EndLevel();
+
+        if (settings.Vibrations) GetComponent<Rumble>().DeathRumble();
+        if (settings.Particles) Instantiate(deathParticles, transform.position, Quaternion.identity);
 
         DisablePlayer();
         StartCoroutine(RestartScene());
@@ -45,9 +46,6 @@ public class FallDeath : MonoBehaviour
 
     private IEnumerator RestartScene()
     {
-        if(settings.DeathEffects)
-            Instantiate(deathParticles, transform.position, Quaternion.identity);
-
         yield return new WaitForSeconds(restartDelay);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

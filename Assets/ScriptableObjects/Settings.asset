@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a988a488d3bf684386594d0b6982e3b, type: 3}
   m_Name: Settings
   m_EditorClassIdentifier: 
-  <DashEffects>k__BackingField: 1
-  <DeathEffects>k__BackingField: 1
-  <MovementParticles>k__BackingField: 1
+  <Vibrations>k__BackingField: 1
+  <Particles>k__BackingField: 1
+  <Animations>k__BackingField: 1
