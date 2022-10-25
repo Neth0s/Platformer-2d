@@ -15,6 +15,12 @@ public class Tutorial : MonoBehaviour
 
     private void OnEnable()
     {
+        StartCoroutine(WaitForGamepadDetection());
+    }
+
+    public IEnumerator WaitForGamepadDetection()
+    {
+        yield return new WaitForSeconds(2);
         DisplayControls();
     }
 
@@ -23,10 +29,11 @@ public class Tutorial : MonoBehaviour
         if (!isTutorial) return;
 
         var gamepad = GetGamepad();
-        if (gamepad != null)
+        Debug.Log(gamepad);
+        if (gamepad == null)
         {
-            gamepadInputs.SetActive(false);
             keyboardInputs.SetActive(true);
+            gamepadInputs.SetActive(false);
         }
         else
         {

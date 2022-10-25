@@ -136,6 +136,7 @@ MonoBehaviour:
   endDelay: 1.5
   currentLevel: 0
   nextScene: Menu
+  settings: {fileID: 11400000, guid: d8d08696fac5d6b4887389fea6d2ca8d, type: 2}
 --- !u!61 &3999559294222094354
 BoxCollider2D:
   m_ObjectHideFlags: 0

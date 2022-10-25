@@ -19,5 +19,6 @@ public class Reset : MonoBehaviour
         settings.Particles = true;
         settings.Animations = true;
         settings.Vibrations = true;
+        settings.RetryMode = false;
     }
 }

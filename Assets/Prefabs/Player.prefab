@@ -272,11 +272,11 @@ MonoBehaviour:
   dashSpeed: 40
   dashTime: 0.15
   dashReloadTime: 1
+  settings: {fileID: 11400000, guid: d8d08696fac5d6b4887389fea6d2ca8d, type: 2}
   runAngle: -15
   dashingColor: {r: 0, g: 0, b: 1, a: 1}
   dashEmptyColor: {r: 1, g: 1, b: 0, a: 1}
   trailTime: 0.25
-  settings: {fileID: 11400000, guid: d8d08696fac5d6b4887389fea6d2ca8d, type: 2}
 --- !u!114 &6224878515104927682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,22 +294,22 @@ MonoBehaviour:
   fastFallSpeed: 35
   maxJumps: 2
   jumpImpulse: 15
-  jumpImpulseOnBouncy: 25
+  bounceImpulse: 25
   burstParticles: {fileID: 6461465920845842017, guid: f08ac6955c5daea43a5793d6e3069e47, type: 3}
   wallJumpImpulse: 16
   wallJumpAngle: 50
   wallJumpTime: 0.25
   gravity: 30
   wallSlideSpeed: 4
-  fallMultiplier: 1.5
+  fallMultiplier: 2.5
   jumpCutoff: 0.5
   jumpBuffer: 0.1
   coyoteTime: 0.1
+  settings: {fileID: 11400000, guid: d8d08696fac5d6b4887389fea6d2ca8d, type: 2}
   jumpSquash: 1.6
   landSquash: 1.3
   fastfallSquash: 0.25
   fastfallStretch: 1.5
-  settings: {fileID: 11400000, guid: d8d08696fac5d6b4887389fea6d2ca8d, type: 2}
 --- !u!114 &1697647013
 MonoBehaviour:
   m_ObjectHideFlags: 0

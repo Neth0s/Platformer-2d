@@ -12,7 +12,7 @@ public class Jump : MonoBehaviour
     [Header("Jump parameters")]
     [SerializeField, Min(0)] private int maxJumps = 2;
     [SerializeField, Min(0)] private float jumpImpulse = 10f;
-    [SerializeField, Min(0)] private float jumpImpulseOnBouncy = 25f;
+    [SerializeField, Min(0)] private float bounceImpulse = 25f;
     [SerializeField] private GameObject burstParticles;
 
     [Header("Wall Jump")]
@@ -32,11 +32,11 @@ public class Jump : MonoBehaviour
     [SerializeField, Min(0)] private float coyoteTime = 0.1f;
 
     [Header("Animation")]
+    [SerializeField] private Settings settings;
     [SerializeField, Range(1, 2)] private float jumpSquash = 1.5f;
     [SerializeField, Range(1, 2)] private float landSquash = 1.5f;
     [SerializeField, Range(0, 1)] private float fastfallSquash = 0.25f;
     [SerializeField, Range(1, 2)] private float fastfallStretch = 1.5f;
-    [SerializeField] private Settings settings;
 
     public bool OnGround => Time.time <= lastOnGroundDate + coyoteTime;
     private bool OnWall => Time.time <= lastOnWallDate + coyoteTime;
@@ -212,7 +212,7 @@ public class Jump : MonoBehaviour
         {
             jumpsLeft--;
 
-            VerticalSpeed = jumpImpulseOnBouncy;
+            VerticalSpeed = bounceImpulse;
             LeaveGround();
 
             justBounced = true;

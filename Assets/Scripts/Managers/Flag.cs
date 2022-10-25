@@ -11,6 +11,7 @@ public class Flag : MonoBehaviour
     [Header("Level")]
     [SerializeField] private int currentLevel;
     [SerializeField] private string nextScene;
+    [SerializeField] private Settings settings;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -33,6 +34,8 @@ public class Flag : MonoBehaviour
     {
         GetComponent<ParticleSystem>().Play();
         yield return new WaitForSeconds(endDelay);
-        SceneManager.LoadScene(nextScene);
+
+        if (!settings.RetryMode) SceneManager.LoadScene(nextScene);
+        else SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
